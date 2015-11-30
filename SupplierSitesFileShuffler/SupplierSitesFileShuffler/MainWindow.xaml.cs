@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.SharePoint.Client;
+using Microsoft.SharePoint.Client.DocumentSet;
 using SupplierSitesFileShuffler;
 
 namespace Renamer
@@ -88,8 +89,6 @@ namespace Renamer
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                _source.Clear();
-
                 string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
                 string[] SupplierArray = SearchDirs.ToArray();
 
@@ -98,22 +97,51 @@ namespace Renamer
                 {
                     //Creating FileInfo object of path
                     FileInfo infoFile = new FileInfo(filepath);
-                    //string filename = infoFile.Name.Substring(0, 7);
+
+                    string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
+                    string FileState;
+
+                    if (names.Length != 5)
+                    {
+                        FileState = "Error";
+                    }
+                    else
+                        switch (names[3])
+                        {
+                            case "C":
+                                FileState = "Concept";
+                                break;
+                            case "D":
+                                FileState = "Design";
+                                break;
+                            case "P":
+                                FileState = "Pre-Released";
+                                break;
+                            case "R":
+                                FileState = "Released";
+                                break;
+                            default:
+                                FileState = "Null";
+                                break;
+                        }
 
                     //Creating viewer object to show info
                     ViewFile viewer = new ViewFile()
                     {
                         Extension = infoFile.Extension,
-                        FileSize = infoFile.Length,
+                        FileSize = (infoFile.Length / 1024).ToString() + " kB",
                         PartNo = infoFile.Name.Substring(0, 7),
                         SourceLocation = filepath,
                         FileName = infoFile.Name,
                         SiteFound = false,
-                        Supplier = ""
+                        Supplier = "",
+                        Version = names[1] + "." + names[2],
+                        Status = FileState
+
                     };
+
                     //Adding FileInfo object to Datagrid
                     _source.Add(viewer);
-
 
                 }
 
@@ -137,6 +165,10 @@ namespace Renamer
                             item.CopySite = destinationfull;
                             item.SiteFound = true;
                             item.Supplier = location.Remove(0, 43);
+                        }
+                        if (item.Status == "Error")
+                        {
+                            item.SiteFound = false;
                         }
 
                     }
@@ -181,70 +213,42 @@ namespace Renamer
             {
 
 
-                if (!string.IsNullOrEmpty(item.CopySite))
+                ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/Experimental/");
+                Web web = clientContext.Web;
+                clientContext.Load(web);
+                clientContext.ExecuteQuery();
+
+
+                Microsoft.SharePoint.Client.List CurrentList = clientContext.Web.Lists.GetByTitle("Part Overview Library");
+
+                clientContext.Load(CurrentList.RootFolder);
+
+                clientContext.ExecuteQuery();
+
+                using (FileStream fs = new FileStream(item.SourceLocation, FileMode.Open))
                 {
-                    string[] split = item.FileName.Split('_');
 
-                    if (split.Length != 4)
-                    {
-                        item.SiteFound = false;
-                    }
-                    else
-                    {
-                        item.Version = $"{ split[1]}.{split[2]}";
-                        string[] status_split = split[3].Split('.');
-                        switch (status_split[0].ToUpper())
-                        {
-                            case "C":
-                                item.Status = "Concept";
-                                break;
-                            case "D":
-                                item.Status = "Design";
-                                break;
-                            case "P":
-                                item.Status = "Pre-Released";
-                                break;
-                            case "R":
-                                item.Status = "Released";
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/Experimental/");
-                    Web web = clientContext.Web;
-                    clientContext.Load(web);
-                    clientContext.ExecuteQuery();
-
-                    Microsoft.SharePoint.Client.List CurrentList = clientContext.Web.Lists.GetByTitle("/POLib/");
-
-                    clientContext.Load(CurrentList.RootFolder);
-
-                    clientContext.ExecuteQuery();
-
-                    using (FileStream fs = new FileStream(item.SourceLocation, FileMode.Open))
-                    {
-
-                        Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "test.pdf", fs, true);
-                    }
-
-                    Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(item.CopySite + item.FileName);
-                    clientContext.Load(newFile);
-                    clientContext.ExecuteQuery();
-
-                    newFile.ListItemAllFields["Mechanical Status"] = item.Status;
-
-                    StatusIndicator.Text = "Files copied successfully!";
+                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "test.pdf", fs, true);
                 }
+
+                Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(item.CopySite + item.FileName);
+                clientContext.Load(newFile);
+                clientContext.ExecuteQuery();
+
+                newFile.ListItemAllFields["Mechanical Status"] = item.Status;
+
+                StatusIndicator.Text = "Files copied successfully!";
+
+
             }
-
-
         }
 
 
     }
 
 
-
 }
+
+
+
+

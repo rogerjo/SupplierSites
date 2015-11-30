@@ -10,7 +10,7 @@ namespace SupplierSitesFileShuffler
 	{
 		public string Extension { get; set; }
 		public string SourceLocation { get; set; }
-		public double FileSize { get; set; }
+		public string FileSize { get; set; }
 		public string PartNo { get; set; }
 		public string CopySite { get; set; }
 		public string FileName { get; set; }
