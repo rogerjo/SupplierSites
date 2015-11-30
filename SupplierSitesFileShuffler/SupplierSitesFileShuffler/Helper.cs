@@ -32,5 +32,26 @@ namespace SupplierSitesFileShuffler
 
             }
         }
+
+        public static void SetAttributes(string context, ViewFile item)
+        {
+            ClientContext ClientContext = new ClientContext(context);
+            Web web = ClientContext.Web;
+            ClientContext.Load(web);
+            ClientContext.ExecuteQuery();
+
+            string relativeUrl = $"/POLib/{item.PartNo}/{item.FileName}";
+            Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(relativeUrl);
+            ClientContext.Load(newFile);
+            ClientContext.ExecuteQuery();
+
+            ListItem listItem = newFile.ListItemAllFields;
+            listItem["Mechanical Version"] = item.Version;
+            listItem["Mechanical Status"] = item.Status;
+
+            listItem.Update();
+
+            ClientContext.ExecuteQuery();
+        }
     }
 }

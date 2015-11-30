@@ -216,22 +216,7 @@ namespace Renamer
                 string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
                 Helper.UploadFile(contextLink, item.PartNo, item.SourceLocation);
 
-                //ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/Experimental/");
-                //Web web = clientContext.Web;
-                //clientContext.Load(web);
-                //clientContext.ExecuteQuery();
-                //Microsoft.SharePoint.Client.List CurrentList = clientContext.Web.Lists.GetByTitle("Part Overview Library");
-                //clientContext.Load(CurrentList.RootFolder);
-                //clientContext.ExecuteQuery();
-                //using (FileStream fs = new FileStream(item.SourceLocation, FileMode.Open))
-                //{
-                //    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "test.pdf", fs, true);
-                //}
-                //Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(item.CopySite + item.FileName);
-                //clientContext.Load(newFile);
-                //clientContext.ExecuteQuery();
-
-                //newFile.ListItemAllFields["Mechanical Status"] = item.Status;
+                Helper.SetAttributes(contextLink, item);
 
                 StatusIndicator.Text = "Files copied successfully!";
 
