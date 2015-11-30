@@ -161,8 +161,10 @@ namespace Renamer
                         if (haselements)
                         {
                             //string destinationfull = POLib + item.PartNo + @"\" + item.FileName;
-                            string destinationfull = POLib + item.PartNo + @"\";
-                            item.CopySite = destinationfull;
+                            //string destinationfull = POLib + item.PartNo + @"\";
+                            //item.CopySite = destinationfull;
+
+                            item.CopySite = location;
                             item.SiteFound = true;
                             item.Supplier = location.Remove(0, 43);
                         }
@@ -211,31 +213,25 @@ namespace Renamer
         {
             foreach (ViewFile item in ViewSource)
             {
+                string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
+                Helper.UploadFile(contextLink, item.PartNo, item.SourceLocation);
 
+                //ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/Experimental/");
+                //Web web = clientContext.Web;
+                //clientContext.Load(web);
+                //clientContext.ExecuteQuery();
+                //Microsoft.SharePoint.Client.List CurrentList = clientContext.Web.Lists.GetByTitle("Part Overview Library");
+                //clientContext.Load(CurrentList.RootFolder);
+                //clientContext.ExecuteQuery();
+                //using (FileStream fs = new FileStream(item.SourceLocation, FileMode.Open))
+                //{
+                //    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "test.pdf", fs, true);
+                //}
+                //Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(item.CopySite + item.FileName);
+                //clientContext.Load(newFile);
+                //clientContext.ExecuteQuery();
 
-                ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/Experimental/");
-                Web web = clientContext.Web;
-                clientContext.Load(web);
-                clientContext.ExecuteQuery();
-
-
-                Microsoft.SharePoint.Client.List CurrentList = clientContext.Web.Lists.GetByTitle("Part Overview Library");
-
-                clientContext.Load(CurrentList.RootFolder);
-
-                clientContext.ExecuteQuery();
-
-                using (FileStream fs = new FileStream(item.SourceLocation, FileMode.Open))
-                {
-
-                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "test.pdf", fs, true);
-                }
-
-                Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(item.CopySite + item.FileName);
-                clientContext.Load(newFile);
-                clientContext.ExecuteQuery();
-
-                newFile.ListItemAllFields["Mechanical Status"] = item.Status;
+                //newFile.ListItemAllFields["Mechanical Status"] = item.Status;
 
                 StatusIndicator.Text = "Files copied successfully!";
 
