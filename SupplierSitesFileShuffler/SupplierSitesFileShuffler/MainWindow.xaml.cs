@@ -128,7 +128,7 @@ namespace Renamer
                     //Creating viewer object to show info
                     ViewFile viewer = new ViewFile()
                     {
-                        Extension = infoFile.Extension,
+                        Extension = infoFile.Extension.ToUpper(),
                         FileSize = (infoFile.Length / 1024).ToString() + " kB",
                         PartNo = infoFile.Name.Substring(0, 7),
                         SourceLocation = filepath,
@@ -217,11 +217,23 @@ namespace Renamer
 
                 var fileName = item.SourceLocation;
 
-
                 var fi = new FileInfo(fileName);
                 var fs = new FileStream(item.SourceLocation, FileMode.Open);
+                string contentType;
 
-                Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status,item.Version);
+                switch (item.Extension)
+                { case ".PDF":
+                        contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
+                        break;
+                    case ".STP":
+                        contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
+                        break;
+                    default:
+                        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                        break;
+                }
+
+                Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType);
                 
                 StatusIndicator.Text = "Files copied successfully!";
 
