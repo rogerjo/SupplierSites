@@ -217,15 +217,12 @@ namespace Renamer
 
                 var fileName = item.SourceLocation;
 
-                using (var fs = new FileStream(fileName, FileMode.Open))
-                {
-                    var fi = new FileInfo(fileName);
 
-                    Helper.UploadDocument(contextLink, "Part Overview Library", "POLib", item.PartNo, item.FileName, fs);
+                var fi = new FileInfo(fileName);
+                var fs = new FileStream(item.SourceLocation, FileMode.Open);
 
-
-
-                }
+                Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status,item.Version);
+                
                 StatusIndicator.Text = "Files copied successfully!";
 
 
