@@ -215,8 +215,17 @@ namespace Renamer
             {
                 string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
 
-                Helper.UploadDocument(contextLink, "Part Overview Library", "POLib", item.PartNo, item.FileName, )
+                var fileName = item.SourceLocation;
 
+                using (var fs = new FileStream(fileName, FileMode.Open))
+                {
+                    var fi = new FileInfo(fileName);
+
+                    Helper.UploadDocument(contextLink, "Part Overview Library", "POLib", item.PartNo, item.FileName, fs);
+
+
+
+                }
                 StatusIndicator.Text = "Files copied successfully!";
 
 
