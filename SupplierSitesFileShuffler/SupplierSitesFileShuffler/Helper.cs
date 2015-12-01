@@ -31,13 +31,10 @@ namespace SupplierSitesFileShuffler
                 Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(
                     fileCreationInformation);
 
-                //Update the metadata for a field having name "DocType"
-                //uploadFile.ListItemAllFields["Mechanical%5Fx0020%5FStatus"] = status;
-                documentsList.Update();
+                //Update the metadata for a field
+                uploadFile.ListItemAllFields["Mechanical_x0020_Version"] = version;
+                uploadFile.ListItemAllFields["Mechanical_x0020_Status"] = status;
 
-                uploadFile.ListItemAllFields["Mechanical%5Fx0020%5FVersion"] = version;
-                //uploadFile.ListItemAllFields["Mechanical Status"] = status;
-                
                 uploadFile.ListItemAllFields.Update();
                 clientContext.ExecuteQuery();
 
