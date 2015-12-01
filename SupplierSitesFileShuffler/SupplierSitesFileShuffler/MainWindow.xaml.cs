@@ -214,9 +214,8 @@ namespace Renamer
             foreach (ViewFile item in ViewSource)
             {
                 string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
-                Helper.UploadFile(contextLink, item.PartNo, item.SourceLocation);
 
-                Helper.SetAttributes(contextLink, item);
+                Helper.UploadDocument(contextLink, "Part Overview Library", "POLib", item.PartNo, item.FileName, )
 
                 StatusIndicator.Text = "Files copied successfully!";
 

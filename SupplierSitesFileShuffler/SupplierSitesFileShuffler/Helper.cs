@@ -10,25 +10,34 @@ namespace SupplierSitesFileShuffler
 {
     public class Helper
     {
-        public static void UploadFile(string context, string destinationLib, string fileName)
+        public static void UploadDocument(string siteURL, string documentListName, string documentListURL, string DocuSetFolder, string documentName, byte[] documentStream)
         {
-            ClientContext ClientContext = new ClientContext(context);
-            Web web = ClientContext.Web;
-            ClientContext.Load(web);
-            ClientContext.ExecuteQuery();
 
-            using (var fs = new FileStream(fileName, FileMode.Open))
+            using (ClientContext clientContext = new ClientContext(siteURL))
             {
-                var fi = new FileInfo(fileName);
-                var list = ClientContext.Web.Lists.GetByTitle("Part Overview Library");
-                //var destinationLib = "4444444";
 
-                ClientContext.Load(list.RootFolder);
-                ClientContext.ExecuteQuery();
-                var destinationUrl = list.RootFolder.ServerRelativeUrl;
-                var fileUrl = String.Format("{0}/{1}/{2}", destinationUrl, destinationLib, fi.Name);
+                //Get Document List
+                List documentsList = clientContext.Web.Lists.GetByTitle(documentListName);
 
-                Microsoft.SharePoint.Client.File.SaveBinaryDirect(ClientContext, fileUrl, fs, true);
+                var fileCreationInformation = new FileCreationInformation();
+                //Assign to content byte[] i.e. documentStream
+
+                fileCreationInformation.Content = documentStream;
+                //Allow owerwrite of document
+
+                fileCreationInformation.Overwrite = true;
+                //Upload URL
+
+                //fileCreationInformation.Url = siteURL + documentListURL + documentName;
+                fileCreationInformation.Url = $"{siteURL}/{documentListURL}/{DocuSetFolder}/{documentName}";
+                Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(
+                    fileCreationInformation);
+
+                //Update the metadata for a field having name "DocType"
+                uploadFile.ListItemAllFields["extension"] = "Funkar för fan";
+
+                uploadFile.ListItemAllFields.Update();
+                clientContext.ExecuteQuery();
 
             }
         }
@@ -37,21 +46,26 @@ namespace SupplierSitesFileShuffler
         {
             ClientContext ClientContext = new ClientContext(context);
             Web web = ClientContext.Web;
+
+            string relativeUrl = $"/POLib/{item.PartNo}/{item.FileName}";
+            //Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(relativeUrl);
+            var newFile = ClientContext.Web.GetFileByServerRelativeUrl(relativeUrl);
             ClientContext.Load(web);
             ClientContext.ExecuteQuery();
 
-            string relativeUrl = $"/POLib/{item.PartNo}/{item.FileName}";
-            Microsoft.SharePoint.Client.File newFile = web.GetFileByServerRelativeUrl(relativeUrl);
-            ClientContext.Load(newFile);
-            ClientContext.ExecuteQuery();
+            //newFile.ListItemAllFields["Mechanical Version"] = item.Version;
+            //ClientContext.Web.
 
-            ListItem listItem = newFile.ListItemAllFields;
-            listItem["Mechanical Version"] = item.Version;
-            listItem["Mechanical Status"] = item.Status;
+            //ClientContext.Load(newFile);
+            // ClientContext.ExecuteQuery();
 
-            listItem.Update();
+            //ListItem listItem = newFile.ListItemAllFields;
+            //listItem["Mechanical Version"] = item.Version;
+            //listItem["Mechanical Status"] = item.Status;
 
-            ClientContext.ExecuteQuery();
+            //listItem.Update();
+
+            //ClientContext.ExecuteQuery();
         }
     }
 }
