@@ -25,3 +25,6 @@ C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierS
 C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.exe
 C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.pdb
 C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe.config
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.exe
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.pdb
