@@ -26,5 +26,29 @@ C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierS
 C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.pdb
 C:\Users\rogerjn\Source\Repos\Supplier Sites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe.config
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.pdb
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Office.Client.Policy.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Office.Client.TranslationServices.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Office.SharePoint.Tools.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Online.SharePoint.Client.Tenant.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.DocumentManagement.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Publishing.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Search.Applications.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Search.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Taxonomy.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.UserProfiles.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.WorkflowServices.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\MainWindow.g.cs
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.g.cs
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler_MarkupCompile.cache
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler_MarkupCompile.lref
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\MainWindow.baml
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.g.resources
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.Properties.Resources.resources
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csproj.GenerateResource.Cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.exe
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.pdb

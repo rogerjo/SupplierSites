@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\
 SupplierSitesFileShuffler
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\App.xaml
 11151548125
 
