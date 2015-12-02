@@ -18,14 +18,10 @@ using Microsoft.SharePoint.Client;
 using Microsoft.SharePoint.Client.DocumentSet;
 using SupplierSitesFileShuffler;
 using MahApps.Metro.Controls;
+using System.Threading;
 
 namespace Renamer
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
-
 
     public partial class MainWindow : MetroWindow
     {
@@ -84,9 +80,6 @@ namespace Renamer
 
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
-            //Activiating progress ring
-            MyProgressRing.IsActive = true;
-
             try
             {
                 var listbox = sender as DataGrid;
@@ -222,8 +215,6 @@ namespace Renamer
 
         private void send_button_Click(object sender, RoutedEventArgs e)
         {
-            //Activiating progress ring
-            MyProgressRing.IsActive = true;
 
             foreach (ViewFile item in ViewSource)
             {
@@ -250,20 +241,14 @@ namespace Renamer
 
                 Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType);
 
-                StatusIndicator.Text = "FILES COPIED SUCCESSFULLY!";
             }
+            StatusIndicator.Text = "FILES COPIED SUCCESSFULLY!";
 
-            //Deactivating progress ring
-            MyProgressRing.IsActive = false;
+
+
 
         }
-
-
-
-
     }
-
-
 }
 
 
