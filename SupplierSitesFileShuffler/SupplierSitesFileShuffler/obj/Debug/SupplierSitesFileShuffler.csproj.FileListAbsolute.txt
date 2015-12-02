@@ -41,7 +41,6 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Taxonomy.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.UserProfiles.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.WorkflowServices.dll
-C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\MainWindow.g.cs
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.g.cs
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler_MarkupCompile.cache
@@ -55,3 +54,5 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\MahApps.Metro.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.baml
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe.CodeAnalysisLog.xml
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe.lastcodeanalysissucceeded
