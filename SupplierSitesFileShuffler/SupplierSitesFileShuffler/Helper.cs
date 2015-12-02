@@ -1,12 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.SharePoint.Client;
-using System.IO;
-using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Microsoft.SharePoint.Client;
+using Microsoft.SharePoint.Client.DocumentSet;
+using SupplierSitesFileShuffler;
+using MahApps.Metro.Controls;
+using System.Threading;
+using System.ComponentModel;
 
 namespace SupplierSitesFileShuffler
 {
@@ -19,7 +32,7 @@ namespace SupplierSitesFileShuffler
             {
 
                 //Get Document List
-                List documentsList = clientContext.Web.Lists.GetByTitle(documentListName);
+                Microsoft.SharePoint.Client.List documentsList = clientContext.Web.Lists.GetByTitle(documentListName);
 
                 var fileCreationInformation = new FileCreationInformation();
                 fileCreationInformation.ContentStream = documentStream;
@@ -29,7 +42,7 @@ namespace SupplierSitesFileShuffler
                 //Upload URL
 
                 fileCreationInformation.Url = siteURL + documentListURL + DocuSetFolder + documentName;
-              
+
                 Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(
                     fileCreationInformation);
 
@@ -45,6 +58,14 @@ namespace SupplierSitesFileShuffler
 
             }
         }
+
+        public static void WorkerInit()
+        {
+            
+
+        }
+
+        
 
     }
 }

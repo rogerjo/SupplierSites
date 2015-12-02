@@ -6,7 +6,7 @@
                       xmlns:local="clr-namespace:Renamer"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-                      Title="MainWindow"
+                      Title="supplier sites fileshuffler"
                       Height="480"
                       Width="700">
     <Grid Margin="0,0,0,0">
@@ -53,7 +53,7 @@
 
         </DataGrid>
         <TextBlock TextWrapping="NoWrap"
-                   Text="DROP YOUR FILES BELOW TO UPLOAD THEM"
+                   Text="drop your files below to add them"
                    FontSize="24"
                    RenderTransformOrigin="0.597,0.505"
                    HorizontalAlignment="Left"

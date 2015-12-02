@@ -19,6 +19,7 @@ using Microsoft.SharePoint.Client.DocumentSet;
 using SupplierSitesFileShuffler;
 using MahApps.Metro.Controls;
 using System.Threading;
+using System.ComponentModel;
 
 namespace Renamer
 {
@@ -26,24 +27,26 @@ namespace Renamer
     public partial class MainWindow : MetroWindow
     {
         // Create the OBSCOLL to bind
-        public ObservableCollection<ViewFile> ViewSource
+        public static ObservableCollection<ViewFile> ViewSource
         {
             get
             {
                 return _source;
             }
         }
-        private ObservableCollection<ViewFile> _source = new ObservableCollection<ViewFile>();
+        public static ObservableCollection<ViewFile> _source = new ObservableCollection<ViewFile>();
 
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
+
             this.Loaded += MainWindow_Loaded;
 
-
         }
+
         List<string> SearchDirs = new List<string>();
+
 
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -215,38 +218,50 @@ namespace Renamer
 
         private void send_button_Click(object sender, RoutedEventArgs e)
         {
+            MyProgressRing.IsActive = true;
 
-            foreach (ViewFile item in ViewSource)
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += delegate (object s, DoWorkEventArgs args)
             {
-                string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
 
-                var fileName = item.SourceLocation;
-
-                var fi = new FileInfo(fileName);
-                var fs = new FileStream(item.SourceLocation, FileMode.Open);
-                string contentType;
-
-                switch (item.Extension)
+                foreach (ViewFile item in ViewSource)
                 {
-                    case ".PDF":
-                        contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
-                        break;
-                    case ".STP":
-                        contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
-                        break;
-                    default:
-                        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
-                        break;
+                    string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
+
+                    var fileName = item.SourceLocation;
+
+                    var fi = new FileInfo(fileName);
+                    var fs = new FileStream(item.SourceLocation, FileMode.Open);
+                    string contentType;
+
+                    switch (item.Extension)
+                    {
+                        case ".PDF":
+                            contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
+                            break;
+                        case ".STP":
+                            contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
+                            break;
+                        default:
+                            contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                            break;
+                    }
+
+                    Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType);
+
                 }
+            };
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            worker.RunWorkerAsync();
+            
+        }
 
-                Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType);
-
-            }
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             StatusIndicator.Text = "FILES COPIED SUCCESSFULLY!";
 
-
-
-
+            MyProgressRing.IsActive = false;
         }
     }
 }
