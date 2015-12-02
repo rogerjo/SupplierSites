@@ -40,9 +40,7 @@ namespace Renamer
         {
             InitializeComponent();
             this.DataContext = this;
-
             this.Loaded += MainWindow_Loaded;
-
         }
 
         List<string> SearchDirs = new List<string>();
@@ -77,8 +75,6 @@ namespace Renamer
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Junda2");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SitePages");
-
-
         }
 
         public void DropBox_Drop(object sender, DragEventArgs e)
@@ -177,12 +173,10 @@ namespace Renamer
 
                         StatusIndicator.Text = "FILES ADDED";
                     }
-                }
-
+                };
             }
             catch (IndexOutOfRangeException)
             {
-
                 StatusIndicator.Text = "FILE NOT FORMATTED CORRECTLY";
             }
 
@@ -220,9 +214,9 @@ namespace Renamer
         {
             MyProgressRing.IsActive = true;
 
-            BackgroundWorker worker = new BackgroundWorker();
+            BackgroundWorker workerSender = new BackgroundWorker();
 
-            worker.DoWork += delegate (object s, DoWorkEventArgs args)
+            workerSender.DoWork += delegate (object s, DoWorkEventArgs args)
             {
 
                 foreach (ViewFile item in ViewSource)
@@ -252,14 +246,14 @@ namespace Renamer
 
                 }
             };
-            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            worker.RunWorkerAsync();
-            
+            workerSender.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            workerSender.RunWorkerAsync();
+
         }
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            StatusIndicator.Text = "FILES COPIED SUCCESSFULLY!";
+            StatusIndicator.Text = "FILES COPIED SUCCESSFULLY";
 
             MyProgressRing.IsActive = false;
         }

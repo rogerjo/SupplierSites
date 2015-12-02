@@ -59,13 +59,7 @@ namespace SupplierSitesFileShuffler
             }
         }
 
-        public static void WorkerInit()
-        {
-            
-
-        }
-
-        
+     
 
     }
 }
