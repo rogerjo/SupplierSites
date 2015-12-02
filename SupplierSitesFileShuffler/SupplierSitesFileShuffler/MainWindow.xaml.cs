@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Microsoft.SharePoint.Client;
 using Microsoft.SharePoint.Client.DocumentSet;
 using SupplierSitesFileShuffler;
+using MahApps.Metro.Controls;
 
 namespace Renamer
 {
@@ -26,7 +27,7 @@ namespace Renamer
     /// 
 
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         // Create the OBSCOLL to bind
         public ObservableCollection<ViewFile> ViewSource
@@ -186,7 +187,7 @@ namespace Renamer
             {
                 e.Effects = DragDropEffects.Copy;
                 var listbox = sender as DataGrid;
-                listbox.Background = new SolidColorBrush(Color.FromRgb(155, 155, 155));
+                //listbox.Background = new SolidColorBrush(Color.FromRgb(155, 155, 155));
             }
             else
             {
