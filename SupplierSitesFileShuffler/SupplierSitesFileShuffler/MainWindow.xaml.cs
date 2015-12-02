@@ -84,101 +84,112 @@ namespace Renamer
 
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
+            //Activiating progress ring
+            MyProgressRing.IsActive = true;
 
-            var listbox = sender as DataGrid;
-            listbox.Background = new SolidColorBrush(Color.FromRgb(226, 226, 226));
-
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            try
             {
-                string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
-                string[] SupplierArray = SearchDirs.ToArray();
+                var listbox = sender as DataGrid;
 
-
-                foreach (string filepath in DroppedFiles)
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
-                    //Creating FileInfo object of path
-                    FileInfo infoFile = new FileInfo(filepath);
+                    string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
+                    string[] SupplierArray = SearchDirs.ToArray();
 
-                    string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
-                    string FileState;
 
-                    if (names.Length != 5)
+                    foreach (string filepath in DroppedFiles)
                     {
-                        FileState = "Error";
-                    }
-                    else
-                        switch (names[3])
+                        //Creating FileInfo object of path
+                        FileInfo infoFile = new FileInfo(filepath);
+
+                        string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
+                        string FileState;
+
+                        if (names.Length != 5)
                         {
-                            case "C":
-                                FileState = "Concept";
-                                break;
-                            case "D":
-                                FileState = "Design";
-                                break;
-                            case "P":
-                                FileState = "Pre-Released";
-                                break;
-                            case "R":
-                                FileState = "Released";
-                                break;
-                            default:
-                                FileState = "Null";
-                                break;
+                            FileState = "Error";
                         }
+                        else
+                            switch (names[3])
+                            {
+                                case "C":
+                                    FileState = "Concept";
+                                    break;
+                                case "D":
+                                    FileState = "Design";
+                                    break;
+                                case "P":
+                                    FileState = "Pre-Released";
+                                    break;
+                                case "R":
+                                    FileState = "Released";
+                                    break;
+                                default:
+                                    FileState = "Null";
+                                    break;
+                            }
 
-                    //Creating viewer object to show info
-                    ViewFile viewer = new ViewFile()
-                    {
-                        Extension = infoFile.Extension.ToUpper(),
-                        FileSize = (infoFile.Length / 1024).ToString() + " kB",
-                        PartNo = infoFile.Name.Substring(0, 7),
-                        SourceLocation = filepath,
-                        FileName = infoFile.Name,
-                        SiteFound = false,
-                        Supplier = "",
-                        Version = names[1] + "." + names[2],
-                        Status = FileState
-
-                    };
-
-                    //Adding FileInfo object to Datagrid
-                    _source.Add(viewer);
-
-                }
-
-                //Looping through every dropped file
-                foreach (ViewFile item in _source)
-                {
-                    string filename = item.PartNo;
-                    //Looping through all suppliersites
-                    foreach (string location in SupplierArray)
-                    {
-                        string POLib = location + @"\POLib\";
-
-                        //Getting directories matching the filename
-                        IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
-
-                        bool haselements = foundDirectories.Any();
-                        if (haselements)
+                        //Creating viewer object to show info
+                        ViewFile viewer = new ViewFile()
                         {
-                            //string destinationfull = POLib + item.PartNo + @"\" + item.FileName;
-                            //string destinationfull = POLib + item.PartNo + @"\";
-                            //item.CopySite = destinationfull;
+                            Extension = infoFile.Extension.ToUpper(),
+                            FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                            PartNo = infoFile.Name.Substring(0, 7),
+                            SourceLocation = filepath,
+                            FileName = infoFile.Name,
+                            SiteFound = false,
+                            Supplier = "",
+                            Version = names[1] + "." + names[2],
+                            Status = FileState
 
-                            item.CopySite = location;
-                            item.SiteFound = true;
-                            item.Supplier = location.Remove(0, 43);
-                        }
-                        if (item.Status == "Error")
-                        {
-                            item.SiteFound = false;
-                        }
+                        };
+
+                        //Adding FileInfo object to Datagrid
+                        _source.Add(viewer);
 
                     }
 
-                    StatusIndicator.Text = "Files added";
+                    //Looping through every dropped file
+                    foreach (ViewFile item in _source)
+                    {
+                        string filename = item.PartNo;
+                        //Looping through all suppliersites
+                        foreach (string location in SupplierArray)
+                        {
+                            string POLib = location + @"\POLib\";
+
+                            //Getting directories matching the filename
+                            IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
+
+                            bool haselements = foundDirectories.Any();
+                            if (haselements)
+                            {
+                                //string destinationfull = POLib + item.PartNo + @"\" + item.FileName;
+                                //string destinationfull = POLib + item.PartNo + @"\";
+                                //item.CopySite = destinationfull;
+
+                                item.CopySite = location;
+                                item.SiteFound = true;
+                                item.Supplier = location.Remove(0, 43);
+                            }
+                            if (item.Status == "Error")
+                            {
+                                item.SiteFound = false;
+                            }
+
+                        }
+
+                        StatusIndicator.Text = "FILES ADDED";
+                    }
                 }
+
             }
+            catch (IndexOutOfRangeException)
+            {
+
+                StatusIndicator.Text = "FILE NOT FORMATTED CORRECTLY";
+            }
+
         }
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
@@ -187,6 +198,7 @@ namespace Renamer
             {
                 e.Effects = DragDropEffects.Copy;
                 var listbox = sender as DataGrid;
+                dataGrid.Background = new SolidColorBrush(Color.FromArgb(0, 155, 155, 155));
                 //listbox.Background = new SolidColorBrush(Color.FromRgb(155, 155, 155));
             }
             else
@@ -199,8 +211,6 @@ namespace Renamer
         private void DropBox_DragLeave(object sender, DragEventArgs e)
         {
             var listbox = sender as DataGrid;
-            listbox.Background = new SolidColorBrush(Color.FromRgb(226, 226, 226));
-
 
         }
 
@@ -212,6 +222,9 @@ namespace Renamer
 
         private void send_button_Click(object sender, RoutedEventArgs e)
         {
+            //Activiating progress ring
+            MyProgressRing.IsActive = true;
+
             foreach (ViewFile item in ViewSource)
             {
                 string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
@@ -223,7 +236,8 @@ namespace Renamer
                 string contentType;
 
                 switch (item.Extension)
-                { case ".PDF":
+                {
+                    case ".PDF":
                         contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
                         break;
                     case ".STP":
@@ -235,12 +249,16 @@ namespace Renamer
                 }
 
                 Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType);
-                
-                StatusIndicator.Text = "Files copied successfully!";
 
-
+                StatusIndicator.Text = "FILES COPIED SUCCESSFULLY!";
             }
+
+            //Deactivating progress ring
+            MyProgressRing.IsActive = false;
+
         }
+
+
 
 
     }

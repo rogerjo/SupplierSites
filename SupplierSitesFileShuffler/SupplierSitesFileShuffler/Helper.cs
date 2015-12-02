@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SharePoint.Client;
 using System.IO;
+using System.Threading;
+using System.Windows.Media;
 
 namespace SupplierSitesFileShuffler
 {
@@ -43,7 +45,6 @@ namespace SupplierSitesFileShuffler
 
             }
         }
-
 
     }
 }
