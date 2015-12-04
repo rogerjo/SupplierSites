@@ -125,6 +125,9 @@ namespace Renamer
 
                         };
 
+                        //Add the newFilename property
+                        viewer.NewFileName= viewer.NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}";
+
                         //Adding FileInfo object to Datagrid
                         _source.Add(viewer);
 
@@ -134,6 +137,7 @@ namespace Renamer
                     foreach (ViewFile item in _source)
                     {
                         string filename = item.PartNo;
+                        
                         //Looping through all suppliersites
                         foreach (string location in SupplierArray)
                         {
@@ -145,10 +149,6 @@ namespace Renamer
                             bool haselements = foundDirectories.Any();
                             if (haselements)
                             {
-                                //string destinationfull = POLib + item.PartNo + @"\" + item.FileName;
-                                //string destinationfull = POLib + item.PartNo + @"\";
-                                //item.CopySite = destinationfull;
-
                                 item.CopySite = location;
                                 item.SiteFound = true;
                                 item.Supplier = location.Remove(0, 43);
@@ -231,7 +231,7 @@ namespace Renamer
                             break;
                     }
 
-                    Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType);
+                    Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType, item.NewFileName);
 
                 }
             };
@@ -248,7 +248,3 @@ namespace Renamer
         }
     }
 }
-
-
-
-

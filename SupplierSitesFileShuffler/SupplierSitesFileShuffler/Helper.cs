@@ -5,7 +5,7 @@ namespace SupplierSitesFileShuffler
 {
     public class Helper
     {
-        public static void UploadDocument(string siteURL, string documentListName, string documentListURL, string DocuSetFolder, string documentName, FileStream documentStream, string status, string version, string contentID)
+        public static void UploadDocument(string siteURL, string documentListName, string documentListURL, string DocuSetFolder, string documentName, FileStream documentStream, string status, string version, string contentID, string newFileName)
         {
 
             using (ClientContext clientContext = new ClientContext(siteURL))
@@ -21,7 +21,7 @@ namespace SupplierSitesFileShuffler
                 fileCreationInformation.Overwrite = true;
                 //Upload URL
 
-                fileCreationInformation.Url = siteURL + documentListURL + DocuSetFolder + documentName;
+                fileCreationInformation.Url = siteURL + documentListURL + DocuSetFolder + newFileName;
 
                 Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(
                     fileCreationInformation);
