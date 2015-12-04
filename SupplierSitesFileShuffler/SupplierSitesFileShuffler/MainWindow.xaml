@@ -42,9 +42,11 @@
                 <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         Header='Copy status'
-                                        Binding='{Binding SiteFound}' />
+                                        Binding='{Binding SiteFound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}'
+                                       />
                 <DataGridTextColumn Header='Supplier'
-                                    Binding='{Binding Supplier}' />
+                                    Binding='{Binding Supplier}'
+                                    />
                 <DataGridTextColumn Header='Version'
                                     Binding='{Binding Version}' />
                 <DataGridTextColumn Header='Status'
