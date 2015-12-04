@@ -54,5 +54,3 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\MahApps.Metro.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.baml
-C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe.CodeAnalysisLog.xml
-C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\SupplierSitesFileShuffler.exe.lastcodeanalysissucceeded

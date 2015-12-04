@@ -24,3 +24,7 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.csproj.GenerateResource.Cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.exe
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.pdb
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\MahApps.Metro.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\System.Windows.Interactivity.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\App.baml
