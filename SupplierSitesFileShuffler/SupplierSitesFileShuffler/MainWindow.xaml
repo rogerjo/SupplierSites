@@ -13,9 +13,9 @@
 
         <Grid.RowDefinitions>
 
-            <RowDefinition Height='47' />
-            <RowDefinition Height="315*" />
-            <RowDefinition Height='52*' />
+            <RowDefinition Height='54' />
+            <RowDefinition Height="77*" />
+            <RowDefinition Height='13*' />
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
         <DataGrid x:Name='dataGrid'
@@ -31,7 +31,8 @@
                   DragOver="DropBox_DragOver"
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
-                  Style="{StaticResource AzureDataGrid}">
+                  Style="{StaticResource AzureDataGrid}"
+                  Grid.RowSpan='2'>
 
             <DataGrid.Columns>
 
@@ -42,11 +43,9 @@
                 <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         Header='Copy status'
-                                        Binding='{Binding SiteFound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}'
-                                       />
+                                        Binding='{Binding SiteFound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}' />
                 <DataGridTextColumn Header='Supplier'
-                                    Binding='{Binding Supplier}'
-                                    />
+                                    Binding='{Binding Supplier}' />
                 <DataGridTextColumn Header='Version'
                                     Binding='{Binding Version}' />
                 <DataGridTextColumn Header='Status'
@@ -54,14 +53,6 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <TextBlock TextWrapping="NoWrap"
-                   Text="drop your files below to add them"
-                   FontSize="24"
-                   RenderTransformOrigin="0.597,0.505"
-                   HorizontalAlignment="Left"
-                   Width="480"
-                   Margin="10,4,0,15"
-                   Grid.Row='0' />
 
         <StatusBar Grid.Row="3"
                    Height="35"
@@ -71,7 +62,8 @@
                            HorizontalAlignment='Left'
                            Width='692'>
                 <TextBlock x:Name="StatusIndicator"
-                           Width='444' />
+                           Width='444' 
+                           Text='STATUS:'/>
 
             </StatusBarItem>
 
@@ -97,14 +89,23 @@
                 Width='170'
                 Click='send_button_Click'
                 Height='32' />
-        
+
         <Controls:ProgressRing x:Name='MyProgressRing'
                                IsActive='False'
                                HorizontalAlignment='Center'
                                VerticalAlignment='Center'
                                Height='100'
                                Width='100'
-                               Grid.Row='1' />
+                               Grid.Row='1'
+                               Margin='296,102,296,106' />
+        <TextBlock TextWrapping="NoWrap"
+                   Text="drop your files below to add them"
+                   FontSize="24"
+                   RenderTransformOrigin="0.597,0.505"
+                   HorizontalAlignment="Left"
+                   Width="480"
+                   Margin="10,4,0,15"
+                   Grid.Row='0' />
 
     </Grid>
 

@@ -160,13 +160,13 @@ namespace Renamer
 
                         }
 
-                        StatusIndicator.Text = "FILES ADDED";
+                        StatusIndicator.Text = "STATUS: FILES ADDED";
                     }
                 };
             }
             catch (IndexOutOfRangeException)
             {
-                StatusIndicator.Text = "FILE NOT FORMATTED CORRECTLY";
+                StatusIndicator.Text = "STATUS: FILE NOT FORMATTED CORRECTLY";
             }
 
         }
@@ -245,7 +245,7 @@ namespace Renamer
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            StatusIndicator.Text = "FILES COPIED SUCCESSFULLY";
+            StatusIndicator.Text = "STATUS: FILES COPIED SUCCESSFULLY";
 
             MyProgressRing.IsActive = false;
         }
