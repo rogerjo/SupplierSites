@@ -249,5 +249,11 @@ namespace Renamer
 
             MyProgressRing.IsActive = false;
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            HelpWindow helper = new HelpWindow();
+            helper.Show();
+        }
     }
 }
