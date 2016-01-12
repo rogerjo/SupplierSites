@@ -7,26 +7,26 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="HelpWindow"
-        Height="500"
-        Width="400"
+        Height="600"
+        Width="500"
         Loaded='Window_Loaded'>
     <Grid HorizontalAlignment='Center'
-          Height='460'
+          Height='560'
           Margin='0,0,0,0'
           VerticalAlignment='Top'
-          Width='380'>
+          Width='480'>
         <Grid.RowDefinitions>
-            <RowDefinition Height='400' />
+            <RowDefinition Height='500' />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <WebBrowser HorizontalAlignment='Center'
                     Name='browser'
-                    Height='390'
+                    Height='490'
                     Margin='0,0,0,0'
                     VerticalAlignment='Center'
-                    Width='380'
-                    Grid.Row='0'/>
+                    Width='470'
+                    Grid.Row='0' />
         <Button x:Name='closeButton'
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 Content='Close'

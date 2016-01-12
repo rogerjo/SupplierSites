@@ -31,12 +31,15 @@
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
                   Style="{StaticResource AzureDataGrid}"
+                  
                   Grid.RowSpan='2'>
 
             <DataGrid.Columns>
 
                 <DataGridTextColumn Header=' Part Number'
                                     Binding='{Binding PartNo}' />
+                <DataGridTextColumn Header='Filetype'
+                                    Binding='{Binding Extension}' />
                 <DataGridTextColumn Header=' File Size'
                                     Binding='{Binding FileSize}' />
                 <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
@@ -44,11 +47,11 @@
                                         Header='Copy status'
                                         Binding='{Binding SiteFound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}' />
                 <DataGridTextColumn Header='Supplier'
-                                    Binding='{Binding Supplier}' />
+                                    Binding='{Binding Supplier}' Width='100'/>
                 <DataGridTextColumn Header='Version'
-                                    Binding='{Binding Version}' />
+                                    Binding='{Binding Version}'/>
                 <DataGridTextColumn Header='Status'
-                                    Binding='{Binding Status}' />
+                                    Binding='{Binding Status}' Width='*'/>
             </DataGrid.Columns>
 
         </DataGrid>
