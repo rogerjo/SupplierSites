@@ -30,7 +30,8 @@
                   DragOver="DropBox_DragOver"
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
-                  Style="{StaticResource AzureDataGrid}">
+                  Style="{StaticResource AzureDataGrid}"
+                  CanUserAddRows="false">
 
             <DataGrid.Columns>
 
