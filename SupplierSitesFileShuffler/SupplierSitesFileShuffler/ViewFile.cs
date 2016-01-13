@@ -13,6 +13,7 @@
         public string Version { get; set; }
         public string Status { get; set; }
         public string NewFileName { get; set; }
+        public string FolderName { get; set; }
 
 
 

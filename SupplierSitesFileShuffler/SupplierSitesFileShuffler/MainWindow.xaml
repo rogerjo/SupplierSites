@@ -7,8 +7,8 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       Title="supplier sites fileshuffler"
-                      Height="480"
-                      Width="700">
+                      Height="500"
+                      Width="800">
     <Grid Margin="0,0,0,0">
 
         <Grid.RowDefinitions>
@@ -23,16 +23,14 @@
                   Grid.Row='1'
                   VerticalAlignment='Top'
                   Height='302'
-                  Width='672'
+                  Width='772'
                   AutoGenerateColumns='False'
                   AllowDrop='True'
                   Drop="DropBox_Drop"
                   DragOver="DropBox_DragOver"
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
-                  Style="{StaticResource AzureDataGrid}"
-                  
-                  Grid.RowSpan='2'>
+                  Style="{StaticResource AzureDataGrid}">
 
             <DataGrid.Columns>
 
@@ -47,11 +45,31 @@
                                         Header='Copy status'
                                         Binding='{Binding SiteFound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}' />
                 <DataGridTextColumn Header='Supplier'
-                                    Binding='{Binding Supplier}' Width='100'/>
+                                    Binding='{Binding Supplier}'
+                                    Width='100' />
                 <DataGridTextColumn Header='Version'
-                                    Binding='{Binding Version}'/>
+                                    Binding='{Binding Version}' />
                 <DataGridTextColumn Header='Status'
-                                    Binding='{Binding Status}' Width='*'/>
+                                    Binding='{Binding Status}'
+                                    Width='105' />
+
+                <DataGridTemplateColumn  Header="Link"
+                                         Width='*'>
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name='LinkButton'
+                                    Click="LinkButton_Click"
+                                    CommandParameter='{Binding FolderName}'
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                    Height='32'
+                                    >Link</Button>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
             </DataGrid.Columns>
 
         </DataGrid>
@@ -64,8 +82,8 @@
                            HorizontalAlignment='Left'
                            Width='692'>
                 <TextBlock x:Name="StatusIndicator"
-                           Width='444' 
-                           Text='STATUS:'/>
+                           Width='444'
+                           Text='STATUS:' />
 
             </StatusBarItem>
 
@@ -75,7 +93,7 @@
                 Content='Clear Content'
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 HorizontalAlignment='Left'
-                Margin='189,10,0,0'
+                Margin='229,10,0,0'
                 Grid.Row='2'
                 VerticalAlignment='Top'
                 Width='115'
@@ -84,11 +102,9 @@
         <Button x:Name='send_button'
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 Content='Send to supplier sites'
-                HorizontalAlignment='Left'
-                Margin='320,10,0,0'
+                Margin='393,10,229,0'
                 Grid.Row='2'
                 VerticalAlignment='Top'
-                Width='170'
                 Click='send_button_Click'
                 Height='32' />
 

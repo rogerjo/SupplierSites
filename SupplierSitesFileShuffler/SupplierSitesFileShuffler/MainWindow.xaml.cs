@@ -124,7 +124,8 @@ namespace Renamer
                             SiteFound = false,
                             Supplier = "",
                             Version = names[1] + "." + names[2],
-                            Status = FileState
+                            Status = FileState,
+                            FolderName = ""
 
                         };
 
@@ -155,6 +156,8 @@ namespace Renamer
                                 item.CopySite = location;
                                 item.SiteFound = true;
                                 item.Supplier = location.Remove(0, 43);
+                                item.FolderName = (location + "\\POLib\\" + item.PartNo).Replace("\\","/");
+                                
                             }
                             if (item.Status == "Error")
                             {
@@ -260,6 +263,13 @@ namespace Renamer
             string target = @"\\Storage03\hw-apps\ptc\fileshuffler\helpfiles\helpfile.html";
 
             System.Diagnostics.Process.Start(target);
+        }
+
+        private void LinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            object target = ((Button)sender).CommandParameter;
+            System.Diagnostics.Process.Start("http:" + target.ToString());
+
         }
     }
 }
