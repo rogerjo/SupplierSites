@@ -257,8 +257,9 @@ namespace Renamer
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            HelpWindow helper = new HelpWindow();
-            helper.Show();
+            string target = @"\\Storage03\hw-apps\ptc\fileshuffler\helpfiles\helpfile.html";
+
+            System.Diagnostics.Process.Start(target);
         }
     }
 }
