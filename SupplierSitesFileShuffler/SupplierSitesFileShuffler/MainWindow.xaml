@@ -30,16 +30,16 @@
                   DragOver="DropBox_DragOver"
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
-                  Style="{StaticResource AzureDataGrid}"
+                  Style='{StaticResource AzureDataGrid}'
                   CanUserAddRows="false">
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header=' Part Number'
+                <DataGridTextColumn Header='Part Number'
                                     Binding='{Binding PartNo}' />
                 <DataGridTextColumn Header='Filetype'
                                     Binding='{Binding Extension}' />
-                <DataGridTextColumn Header=' File Size'
+                <DataGridTextColumn Header='File Size'
                                     Binding='{Binding FileSize}' />
                 <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"

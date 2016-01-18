@@ -72,8 +72,12 @@ namespace Renamer
             {
                 var listbox = sender as DataGrid;
 
-                dataGrid.Background = Brushes.White;
-                dataGrid.RowBackground = Brushes.White;
+                //dataGrid.Background = Brushes.White;
+                //dataGrid.RowBackground = Brushes.White;
+
+                //dataGrid.Background = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+                //dataGrid.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+
 
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
@@ -179,25 +183,15 @@ namespace Renamer
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
         {
-            //if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            //{
-            //e.Effects = DragDropEffects.Copy;
-            //var listbox = sender as DataGrid;
-            dataGrid.Background = Brushes.LightGray;
-            dataGrid.RowBackground = Brushes.LightGray;
-            //listbox.Background = new SolidColorBrush(Color.FromRgb(155, 155, 155));
-            //}
-            //else
-            //{
-            //    e.Effects = DragDropEffects.None;
-            //}
+            //dataGrid.Background = Brushes.LightGray;
+            //dataGrid.RowBackground = Brushes.LightGray;
 
         }
 
         private void DropBox_DragLeave(object sender, DragEventArgs e)
         {
-            dataGrid.Background = Brushes.White;
-            dataGrid.RowBackground = Brushes.White;
+            //dataGrid.Background = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+            //dataGrid.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 37));
 
         }
 
