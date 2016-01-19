@@ -72,6 +72,13 @@ namespace Renamer
             {
                 var listbox = sender as DataGrid;
 
+                //dataGrid.Background = Brushes.White;
+                //dataGrid.RowBackground = Brushes.White;
+
+                //dataGrid.Background = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+                //dataGrid.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+
+
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -121,7 +128,8 @@ namespace Renamer
                             SiteFound = false,
                             Supplier = "",
                             Version = names[1] + "." + names[2],
-                            Status = FileState
+                            Status = FileState,
+                            FolderName = ""
 
                         };
 
@@ -152,6 +160,8 @@ namespace Renamer
                                 item.CopySite = location;
                                 item.SiteFound = true;
                                 item.Supplier = location.Remove(0, 43);
+                                item.FolderName = (location + "\\POLib\\" + item.PartNo).Replace("\\","/");
+                                
                             }
                             if (item.Status == "Error")
                             {
@@ -173,23 +183,15 @@ namespace Renamer
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effects = DragDropEffects.Copy;
-                var listbox = sender as DataGrid;
-                dataGrid.Background = new SolidColorBrush(Color.FromArgb(0, 155, 155, 155));
-                //listbox.Background = new SolidColorBrush(Color.FromRgb(155, 155, 155));
-            }
-            else
-            {
-                e.Effects = DragDropEffects.None;
-            }
+            //dataGrid.Background = Brushes.LightGray;
+            //dataGrid.RowBackground = Brushes.LightGray;
 
         }
 
         private void DropBox_DragLeave(object sender, DragEventArgs e)
         {
-            var listbox = sender as DataGrid;
+            //dataGrid.Background = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+            //dataGrid.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 37));
 
         }
 
@@ -252,8 +254,16 @@ namespace Renamer
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            HelpWindow helper = new HelpWindow();
-            helper.Show();
+            string target = @"\\Storage03\hw-apps\ptc\fileshuffler\helpfiles\helpfile.html";
+
+            System.Diagnostics.Process.Start(target);
+        }
+
+        private void LinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            object target = ((Button)sender).CommandParameter;
+            System.Diagnostics.Process.Start("http:" + target.ToString());
+
         }
     }
 }
