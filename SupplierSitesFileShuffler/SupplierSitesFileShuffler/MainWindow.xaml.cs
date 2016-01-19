@@ -167,8 +167,8 @@ namespace Renamer
                                         Version = names[1] + "." + names[2],
                                         Status = FileState,
                                         Supplier = location.Remove(0, 43),
-                                        FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/")
-
+                                        FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
+                                        NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
                                     });
 
                                 }
@@ -250,6 +250,7 @@ namespace Renamer
                     {
                         Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType, item.NewFileName);
                     }
+                    fs.Close();
 
                 }
             };
