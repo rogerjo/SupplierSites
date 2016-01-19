@@ -8,7 +8,9 @@
                       mc:Ignorable="d"
                       Title="supplier sites fileshuffler"
                       Height="500"
-                      Width="800">
+                      Width="800"
+                      ShowMaxRestoreButton='False'
+                      ResizeMode='NoResize'>
     <Grid Margin="0,0,0,0">
 
         <Grid.RowDefinitions>
@@ -133,7 +135,7 @@
                 VerticalAlignment='Top'
                 Width='75'
                 Grid.Row='0'
-                Click='button_Click' />
+                Click='helpbutton_Click' />
 
     </Grid>
 

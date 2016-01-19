@@ -72,12 +72,6 @@ namespace Renamer
             {
                 var listbox = sender as DataGrid;
 
-                //dataGrid.Background = Brushes.White;
-                //dataGrid.RowBackground = Brushes.White;
-
-                //dataGrid.Background = new SolidColorBrush(Color.FromRgb(37, 37, 37));
-                //dataGrid.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 37));
-
 
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
@@ -139,39 +133,54 @@ namespace Renamer
                         //Adding FileInfo object to Datagrid
                         _source.Add(viewer);
 
-                    }
-
-                    //Looping through every dropped file
-                    foreach (ViewFile item in _source)
-                    {
-                        string filename = item.PartNo;
+                        //Looping through every dropped file
+                        string filename = viewer.PartNo;
 
                         //Looping through all suppliersites
                         foreach (string location in SupplierArray)
                         {
-                            string POLib = location + @"\POLib\";
-
                             //Getting directories matching the filename
+                            string POLib = location + @"\POLib\";
                             IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
 
                             bool haselements = foundDirectories.Any();
                             if (haselements)
                             {
-                                item.CopySite = location;
-                                item.SiteFound = true;
-                                item.Supplier = location.Remove(0, 43);
-                                item.FolderName = (location + "\\POLib\\" + item.PartNo).Replace("\\","/");
-                                
+                                if (viewer.SiteFound == false)
+                                {
+                                    viewer.CopySite = location;
+                                    viewer.SiteFound = true;
+                                    viewer.Supplier = location.Remove(0, 43);
+                                    viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
+                                }
+                                else
+                                {
+                                    _source.Add(new ViewFile
+                                    {
+                                        Extension = infoFile.Extension.ToUpper(),
+                                        FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                                        PartNo = infoFile.Name.Substring(0, 7),
+                                        SourceLocation = filepath,
+                                        FileName = infoFile.Name,
+                                        CopySite = location,
+                                        SiteFound = true,
+                                        Version = names[1] + "." + names[2],
+                                        Status = FileState,
+                                        Supplier = location.Remove(0, 43),
+                                        FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/")
+
+                                    });
+
+                                }
                             }
-                            if (item.Status == "Error")
+                            if (viewer.Status == "Error")
                             {
-                                item.SiteFound = false;
+                                viewer.SiteFound = false;
                             }
-
                         }
-
                         StatusIndicator.Text = "STATUS: FILES ADDED";
                     }
+
                 };
             }
             catch (IndexOutOfRangeException)
@@ -180,6 +189,10 @@ namespace Renamer
             }
 
         }
+
+
+
+
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
         {
@@ -252,7 +265,7 @@ namespace Renamer
             MyProgressRing.IsActive = false;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void helpbutton_Click(object sender, RoutedEventArgs e)
         {
             string target = @"\\Storage03\hw-apps\ptc\fileshuffler\helpfiles\helpfile.html";
 
@@ -265,5 +278,6 @@ namespace Renamer
             System.Diagnostics.Process.Start("http:" + target.ToString());
 
         }
+
     }
 }
