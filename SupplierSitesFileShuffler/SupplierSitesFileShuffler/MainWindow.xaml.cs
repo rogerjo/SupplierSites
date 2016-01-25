@@ -196,7 +196,9 @@ namespace Renamer
 
         private async void ShowMessageBox(string v1, string v2)
         {
-            await this.ShowMessageAsync(v1, v2);
+            MetroDialogSettings ms = new MetroDialogSettings();
+            ms.ColorScheme = MetroDialogColorScheme.Accented;
+            await this.ShowMessageAsync(v1, v2, MessageDialogStyle.Affirmative, ms);
         }
 
 
