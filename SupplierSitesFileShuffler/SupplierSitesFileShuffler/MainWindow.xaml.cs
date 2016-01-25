@@ -9,6 +9,8 @@ using System.Windows.Media;
 using SupplierSitesFileShuffler;
 using MahApps.Metro.Controls;
 using System.ComponentModel;
+using MahApps.Metro;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Renamer
 {
@@ -178,33 +180,37 @@ namespace Renamer
                                 viewer.SiteFound = false;
                             }
                         }
-                        StatusIndicator.Text = "STATUS: FILES ADDED";
+                        //StatusIndicator.Text = "STATUS: FILES ADDED";
+                        ShowMessageBox("STATUS", "Files have been added");
                     }
 
                 };
             }
             catch (IndexOutOfRangeException)
             {
-                StatusIndicator.Text = "STATUS: FILE NOT FORMATTED CORRECTLY";
+                //StatusIndicator.Text = "STATUS: FILE NOT FORMATTED CORRECTLY";
+                ShowMessageBox("ERROR", "File not formatted correctly");
             }
 
         }
 
-
+        private async void ShowMessageBox(string v1, string v2)
+        {
+            await this.ShowMessageAsync(v1, v2);
+        }
 
 
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
         {
-            //dataGrid.Background = Brushes.LightGray;
-            //dataGrid.RowBackground = Brushes.LightGray;
+
 
         }
 
         private void DropBox_DragLeave(object sender, DragEventArgs e)
         {
-            //dataGrid.Background = new SolidColorBrush(Color.FromRgb(37, 37, 37));
-            //dataGrid.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+            //dataGrid.Background = new SolidColorBrush(Colors.White);
+            //dataGrid.RowBackground = new SolidColorBrush(Colors.White);
 
         }
 
@@ -261,9 +267,8 @@ namespace Renamer
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            StatusIndicator.Text = "STATUS: FILES COPIED SUCCESSFULLY";
-
             MyProgressRing.IsActive = false;
+            ShowMessageBox("STATUS", "Files have been uploaded to the sites successfully");
         }
 
         private void helpbutton_Click(object sender, RoutedEventArgs e)
