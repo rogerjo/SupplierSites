@@ -180,16 +180,16 @@ namespace Renamer
                                 viewer.SiteFound = false;
                             }
                         }
-                        //StatusIndicator.Text = "STATUS: FILES ADDED";
-                        ShowMessageBox("STATUS", "Files have been added");
                     }
 
+                    //StatusIndicator.Text = "STATUS: FILES ADDED";
+                    ShowMessageBox("ADDED", "Files have been added. Check the files and remember to press the button to send them.");
                 };
             }
             catch (IndexOutOfRangeException)
             {
                 //StatusIndicator.Text = "STATUS: FILE NOT FORMATTED CORRECTLY";
-                ShowMessageBox("ERROR", "File not formatted correctly");
+                ShowMessageBox("ERROR", "One or more files are not formatted correctly.");
             }
 
         }
@@ -270,7 +270,7 @@ namespace Renamer
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MyProgressRing.IsActive = false;
-            ShowMessageBox("STATUS", "Files have been uploaded to the sites successfully");
+            ShowMessageBox("SUCCESS", "Files have been uploaded to the sites successfully.");
         }
 
         private void helpbutton_Click(object sender, RoutedEventArgs e)
