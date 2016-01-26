@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using SupplierSitesFileShuffler;
 using MahApps.Metro.Controls;
@@ -70,10 +71,10 @@ namespace Renamer
 
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
+            dropimage.Visibility = Visibility.Hidden;
             try
             {
-                var listbox = sender as DataGrid;
-
+                //var listbox = sender as DataGrid;
 
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
@@ -201,24 +202,20 @@ namespace Renamer
             await this.ShowMessageAsync(v1, v2, MessageDialogStyle.Affirmative, ms);
         }
 
-
-
-        private void DropBox_DragOver(object sender, DragEventArgs e)
-        {
-
-
-        }
-
         private void DropBox_DragLeave(object sender, DragEventArgs e)
         {
-            //dataGrid.Background = new SolidColorBrush(Colors.White);
-            //dataGrid.RowBackground = new SolidColorBrush(Colors.White);
+            BitmapImage grey = new BitmapImage(new Uri("download_grey.png", UriKind.Relative));
+            dropimage.Source = grey;
+            dropimage.Opacity = 0.15;
 
         }
 
         private void clear_button_Click(object sender, RoutedEventArgs e)
         {
-
+            BitmapImage grey = new BitmapImage(new Uri("download_grey.png", UriKind.Relative));
+            dropimage.Source = grey;
+            dropimage.Visibility = Visibility.Visible;
+            dropimage.Opacity = 0.15;
             _source.Clear();
         }
 
@@ -287,5 +284,11 @@ namespace Renamer
 
         }
 
+        private void DropBox_DragOver(object sender, DragEventArgs e)
+        {
+            BitmapImage green = new BitmapImage(new Uri("download.png", UriKind.Relative));
+            dropimage.Source = green;
+            dropimage.Opacity = 0.40;
+        }
     }
 }

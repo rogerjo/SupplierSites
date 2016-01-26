@@ -34,8 +34,7 @@
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
                   Style='{StaticResource AzureDataGrid}'
-                  CanUserAddRows="false"
-                  >
+                  CanUserAddRows="false">
 
             <DataGrid.Columns>
 
@@ -140,6 +139,17 @@
                 Grid.Row='0'
                 Click='helpbutton_Click' />
 
+        <Image x:Name='dropimage'
+               HorizontalAlignment='Center'
+               Grid.Row='1'
+               Margin='265,75,264,72'
+               VerticalAlignment='Center'
+               Source='download_grey.png'
+               Stretch='UniformToFill'
+               Width='128'
+               Height='128'
+               Opacity='0.15' />
     </Grid>
+
 
 </Controls:MetroWindow>
