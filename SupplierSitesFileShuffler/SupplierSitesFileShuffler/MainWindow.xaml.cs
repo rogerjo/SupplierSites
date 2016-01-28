@@ -28,20 +28,10 @@ namespace Renamer
         }
         public static ObservableCollection<ViewFile> _source = new ObservableCollection<ViewFile>();
 
-        public MainWindow()
+        public static List<string> SearchDirs = new List<string>();
+
+        public static string[] CreateSearchDirs()
         {
-            InitializeComponent();
-            this.DataContext = this;
-            this.Loaded += MainWindow_Loaded;
-        }
-
-        List<string> SearchDirs = new List<string>();
-
-
-        public void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.ItemsSource = _source;
-
             string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
             foreach (string item in DirectoryArray)
             {
@@ -67,6 +57,22 @@ namespace Renamer
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Junda2");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SitePages");
+            return DirectoryArray;
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+            this.Loaded += MainWindow_Loaded;
+        }
+
+
+
+        public void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = _source;
+            return;
         }
 
         public void DropBox_Drop(object sender, DragEventArgs e)
