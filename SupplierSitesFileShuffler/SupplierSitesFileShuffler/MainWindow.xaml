@@ -6,7 +6,7 @@
                       xmlns:local="clr-namespace:Renamer"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-                      Title="fileshuffler cyan edition"
+                      Title="fileshuffler magenta edition"
                       Height="500"
                       Width="800"
                       ShowMaxRestoreButton='False'
@@ -36,7 +36,8 @@
                   DragLeave="DropBox_DragLeave"
                   FontSize="14"
                   Style='{StaticResource AzureDataGrid}'
-                  CanUserAddRows="false">
+                  CanUserAddRows="false"
+                  ItemsSource='{Binding ViewSource}'>
 
             <DataGrid.Columns>
 

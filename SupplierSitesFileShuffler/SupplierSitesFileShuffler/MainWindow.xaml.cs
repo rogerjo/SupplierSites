@@ -65,6 +65,7 @@ namespace Renamer
             InitializeComponent();
             this.DataContext = this;
             this.Loaded += MainWindow_Loaded;
+            CreateSearchDirs();
         }
 
 
@@ -80,9 +81,7 @@ namespace Renamer
             dropimage.Visibility = Visibility.Hidden;
             try
             {
-                //var listbox = sender as DataGrid;
-
-                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+               if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
                     string[] SupplierArray = SearchDirs.ToArray();
