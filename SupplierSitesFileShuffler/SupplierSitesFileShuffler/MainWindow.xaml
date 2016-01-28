@@ -10,8 +10,10 @@
                       Height="500"
                       Width="800"
                       ShowMaxRestoreButton='False'
-                      ResizeMode='NoResize'
-                      WindowTransitionsEnabled='True'>
+                      ResizeMode='NoResize'                      
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      WindowTransitionsEnabled="False"
+                      WindowStartupLocation="CenterScreen">
     <Grid Margin="0,0,0,0">
 
         <Grid.RowDefinitions>
@@ -153,7 +155,11 @@
                Stretch='UniformToFill'
                Width='128'
                Height='128'
-               Opacity='0.15' />
+               Opacity='0.15'
+               AllowDrop='True'
+               DragLeave='DropBox_DragLeave'
+               DragOver='DropBox_DragOver'
+               Drop='DropBox_Drop' />
     </Grid>
 
 
