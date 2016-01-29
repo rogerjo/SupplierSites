@@ -6,7 +6,7 @@
                       xmlns:local="clr-namespace:Renamer"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-                      Title="fileshuffler magenta edition"
+                      Title="fileshuffler (cyan edition)"
                       Height="500"
                       Width="800"
                       ShowMaxRestoreButton='False'

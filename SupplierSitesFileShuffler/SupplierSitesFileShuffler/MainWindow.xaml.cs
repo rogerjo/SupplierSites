@@ -30,10 +30,9 @@ namespace Renamer
 
         public static List<string> SearchDirs = new List<string>();
 
-        public static string[] CreateSearchDirs()
+        public string[] CreateSearchDirs(string[] array)
         {
-            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
-            foreach (string item in DirectoryArray)
+            foreach (string item in array)
             {
                 SearchDirs.Add(item);
             }
@@ -57,7 +56,7 @@ namespace Renamer
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Junda2");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SitePages");
-            return DirectoryArray;
+            return array;
         }
 
         public MainWindow()
@@ -65,7 +64,9 @@ namespace Renamer
             InitializeComponent();
             this.DataContext = this;
             this.Loaded += MainWindow_Loaded;
-            CreateSearchDirs();
+            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
+            CreateSearchDirs(DirectoryArray);
+
         }
 
 
@@ -79,6 +80,7 @@ namespace Renamer
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
             dropimage.Visibility = Visibility.Hidden;
+
             try
             {
                if (e.Data.GetDataPresent(DataFormats.FileDrop))
