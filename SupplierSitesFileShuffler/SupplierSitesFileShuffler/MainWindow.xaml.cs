@@ -28,22 +28,11 @@ namespace Renamer
         }
         public static ObservableCollection<ViewFile> _source = new ObservableCollection<ViewFile>();
 
-        public MainWindow()
+        public static List<string> SearchDirs = new List<string>();
+
+        public string[] CreateSearchDirs(string[] array)
         {
-            InitializeComponent();
-            this.DataContext = this;
-            this.Loaded += MainWindow_Loaded;
-        }
-
-        List<string> SearchDirs = new List<string>();
-
-
-        public void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.ItemsSource = _source;
-
-            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
-            foreach (string item in DirectoryArray)
+            foreach (string item in array)
             {
                 SearchDirs.Add(item);
             }
@@ -67,16 +56,34 @@ namespace Renamer
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Junda2");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SitePages");
+            return array;
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+            this.Loaded += MainWindow_Loaded;
+            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
+            CreateSearchDirs(DirectoryArray);
+
+        }
+
+
+
+        public void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = _source;
+            return;
         }
 
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
             dropimage.Visibility = Visibility.Hidden;
+
             try
             {
-                //var listbox = sender as DataGrid;
-
-                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+               if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
                     string[] SupplierArray = SearchDirs.ToArray();

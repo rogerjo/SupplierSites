@@ -36,3 +36,4 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\MahApps.Metro.pdb
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\MahApps.Metro.xml
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\SupplierSitesFileShuffler_TemporaryKey.pfx
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\Microsoft.SharePoint.Client.Runtime.Windows.dll
