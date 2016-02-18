@@ -83,7 +83,7 @@ namespace Renamer
 
             try
             {
-               if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
                     string[] SupplierArray = SearchDirs.ToArray();
@@ -138,7 +138,15 @@ namespace Renamer
                         };
 
                         //Add the newFilename property
-                        viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}";
+                        if (viewer.Extension == ".PDF")
+                        {
+                            viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}D_{names[1]}_{names[2]}{viewer.Extension}";
+
+                        }
+                        else
+                        {
+                            viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}";
+                        }
 
                         //Adding FileInfo object to Datagrid
                         _source.Add(viewer);
