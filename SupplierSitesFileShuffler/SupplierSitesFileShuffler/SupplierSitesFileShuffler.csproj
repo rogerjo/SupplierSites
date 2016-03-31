@@ -64,7 +64,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ManifestCertificateThumbprint>66F4876606061F5874BA496198075AE44888B207</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4A28D301FE65D2158EE6F86893129400892D6302</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SupplierSitesFileShuffler_TemporaryKey.pfx</ManifestKeyFile>
@@ -223,6 +223,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="SupplierSitesFileShuffler_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

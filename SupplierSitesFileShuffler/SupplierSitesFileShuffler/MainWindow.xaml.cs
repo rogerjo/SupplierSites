@@ -105,15 +105,19 @@ namespace Renamer
                             switch (names[3])
                             {
                                 case "C":
+                                case "c":
                                     FileState = "Concept";
                                     break;
                                 case "D":
+                                case "d":
                                     FileState = "Design";
                                     break;
                                 case "P":
+                                case "p":
                                     FileState = "Pre-Released";
                                     break;
                                 case "R":
+                                case "r":
                                     FileState = "Released";
                                     break;
                                 default:
