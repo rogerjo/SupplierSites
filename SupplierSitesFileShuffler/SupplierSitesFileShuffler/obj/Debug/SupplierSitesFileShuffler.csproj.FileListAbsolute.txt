@@ -64,11 +64,6 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\MahApps.Metro.xml
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Runtime.Windows.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\FileShuffler.exe.config
-C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
-C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\MainWindow.g.cs
-C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.g.cs
-C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler_MarkupCompile.cache
-C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler_MarkupCompile.lref
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\FileShuffler.exe.manifest
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\FileShuffler.application
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\FileShuffler.exe
@@ -78,6 +73,7 @@ C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSi
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Office.Client.TranslationServices.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Office.SharePoint.Tools.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.Online.SharePoint.Client.Tenant.dll
+C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.ProjectServer.Client.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.DocumentManagement.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.SharePoint.Client.Publishing.dll
@@ -91,6 +87,11 @@ C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSi
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\MahApps.Metro.pdb
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\MahApps.Metro.xml
+C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
+C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\MainWindow.g.cs
+C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.g.cs
+C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler_MarkupCompile.cache
+C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler_MarkupCompile.lref
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\App.baml
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\MainWindow.baml
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.g.resources

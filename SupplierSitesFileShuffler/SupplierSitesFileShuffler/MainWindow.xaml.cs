@@ -18,6 +18,8 @@ namespace Renamer
 
     public partial class MainWindow : MetroWindow
     {
+        int amountOfSplits;
+
         // Create the OBSCOLL to bind
         public static ObservableCollection<ViewFile> ViewSource
         {
@@ -69,8 +71,6 @@ namespace Renamer
 
         }
 
-
-
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _source;
@@ -96,13 +96,27 @@ namespace Renamer
 
                         string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
                         string FileState;
+                        string Description;
 
-                        if (names.Length != 5)
+
+                        if (names.Length == 5)
+                        {
+                            amountOfSplits = 3;
+
+                        }
+                        else if (names.Length == 6)
+                        {
+                            amountOfSplits = 4;
+                            Description = "Deco Spec";
+
+                        }
+
+                        if (names.Length != 5 && names.Length != 6)
                         {
                             FileState = "Error";
                         }
                         else
-                            switch (names[3])
+                            switch (names[amountOfSplits])
                             {
                                 case "C":
                                 case "c":
@@ -136,6 +150,7 @@ namespace Renamer
                             SiteFound = false,
                             Supplier = "",
                             Version = names[1] + "." + names[2],
+
                             Status = FileState,
                             FolderName = ""
 
@@ -308,6 +323,19 @@ namespace Renamer
             BitmapImage green = new BitmapImage(new Uri("download.png", UriKind.Relative));
             dropimage.Source = green;
             dropimage.Opacity = 0.40;
+        }
+
+        private void GalaxisLogin(Uri webUri, string userName, string password)
+        {
+            //Usage
+            var handler = new SPHttpClientHandler(webUri, userName, password);
+            using (var client = new System.Net.Http.HttpClient(handler))
+            {
+                client.BaseAddress = webUri;
+
+                var result = client.GetAsync("/_api/web/lists").Result;
+                var content = result.Content.ReadAsStringAsync().Result;
+            }
         }
     }
 }
