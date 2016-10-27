@@ -8,7 +8,7 @@
                       mc:Ignorable="d"
                       Title="fileshuffler (crimson edition)"
                       Height="500"
-                      Width="800"
+                      Width="900"
                       ShowMaxRestoreButton='False'
                       ResizeMode='NoResize'                      
                       GlowBrush="{DynamicResource AccentColorBrush}"
@@ -28,7 +28,7 @@
                   Grid.Row='1'
                   VerticalAlignment='Top'
                   Height='302'
-                  Width='772'
+                  Width='872'
                   AutoGenerateColumns='False'
                   AllowDrop='True'
                   Drop="DropBox_Drop"
@@ -44,6 +44,9 @@
                 <DataGridTextColumn Header='Part Number'
                                     Binding='{Binding PartNo}'
                                     Width='1.3*'/>
+                <DataGridTextColumn Header='Description'
+                                    Binding='{Binding FileDescription}'
+                                    Width='1.3*' />
                 <DataGridTextColumn Header='Filetype'
                                     Binding='{Binding Extension}'
                                     Width='0.9*'/>
@@ -68,7 +71,7 @@
                                     Width='1*' />
 
                 <DataGridTemplateColumn  Header="Link"
-                                         Width='1*'>
+                                         Width='0.8*'>
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -115,7 +118,7 @@
         <Button x:Name='send_button'
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 Content='Send to supplier sites'
-                Margin='393,10,229,0'
+                Margin='493,10,229,0'
                 Grid.Row='2'
                 VerticalAlignment='Top'
                 Click='send_button_Click'

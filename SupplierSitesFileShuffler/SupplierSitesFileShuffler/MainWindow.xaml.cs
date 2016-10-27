@@ -96,12 +96,13 @@ namespace Renamer
 
                         string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
                         string FileState;
-                        string Description;
+                        string Description="";
 
 
                         if (names.Length == 5)
                         {
                             amountOfSplits = 3;
+                            Description = "";
 
                         }
                         else if (names.Length == 6)
@@ -149,8 +150,9 @@ namespace Renamer
                             FileName = infoFile.Name,
                             SiteFound = false,
                             Supplier = "",
-                            Version = names[1] + "." + names[2],
-
+                            Version= names[(names.Length-4)] + "." + names[(names.Length - 3)],
+                            //Version = names[1] + "." + names[2],
+                            FileDescription = Description,
                             Status = FileState,
                             FolderName = ""
 
@@ -285,9 +287,14 @@ namespace Renamer
                             break;
                     }
 
+                    if (item.FileDescription=="Deco Spec")
+                    {
+                        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                    }
+
                     if (item.SiteFound == true)
                     {
-                        Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType, item.NewFileName);
+                        Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType, item.NewFileName, item.FileDescription);
                     }
                     fs.Close();
 
