@@ -36,7 +36,7 @@ public class SPHttpClientHandler : HttpClientHandler
     {
         var securePassword = new SecureString();
         foreach (var c in password) { securePassword.AppendChar(c); }
-        var credentials = new SharePointOnlineCredentials(userName, securePassword);
+        var credentials = new SharePointOnlineCredentials("rogerjn", securePassword);
         var authCookie = credentials.GetAuthenticationCookie(webUri);
         var cookieContainer = new CookieContainer();
         cookieContainer.SetCookies(webUri, authCookie);

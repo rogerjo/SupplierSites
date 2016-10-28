@@ -12,6 +12,9 @@ using MahApps.Metro.Controls;
 using System.ComponentModel;
 using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using aejw.Network;
 
 namespace Renamer
 {
@@ -66,14 +69,14 @@ namespace Renamer
             InitializeComponent();
             this.DataContext = this;
             this.Loaded += MainWindow_Loaded;
-            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
-            CreateSearchDirs(DirectoryArray);
+
 
         }
 
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _source;
+            LoginScreen();
             return;
         }
 
@@ -96,7 +99,7 @@ namespace Renamer
 
                         string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
                         string FileState;
-                        string Description="";
+                        string Description = "";
 
 
                         if (names.Length == 5)
@@ -150,7 +153,7 @@ namespace Renamer
                             FileName = infoFile.Name,
                             SiteFound = false,
                             Supplier = "",
-                            Version= names[(names.Length-4)] + "." + names[(names.Length - 3)],
+                            Version = names[(names.Length - 4)] + "." + names[(names.Length - 3)],
                             //Version = names[1] + "." + names[2],
                             FileDescription = Description,
                             Status = FileState,
@@ -287,7 +290,7 @@ namespace Renamer
                             break;
                     }
 
-                    if (item.FileDescription=="Deco Spec")
+                    if (item.FileDescription == "Deco Spec")
                     {
                         contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
                     }
@@ -336,13 +339,60 @@ namespace Renamer
         {
             //Usage
             var handler = new SPHttpClientHandler(webUri, userName, password);
-            using (var client = new System.Net.Http.HttpClient(handler))
+            using (var client = new HttpClient(handler))
             {
                 client.BaseAddress = webUri;
 
                 var result = client.GetAsync("/_api/web/lists").Result;
                 var content = result.Content.ReadAsStringAsync().Result;
             }
+        }
+
+        private async void LoginScreen()
+        {
+            LoginDialogSettings ms = new LoginDialogSettings();
+            ms.ColorScheme = MetroDialogColorScheme.Accented;
+            ms.EnablePasswordPreview = true;
+            LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
+
+            NetworkDrive oNetDrive = new aejw.Network.NetworkDrive();
+            try
+            {
+                oNetDrive.LocalDrive = "K:";
+                oNetDrive.ShareName = @"\\galaxis.axis.com\suppliers\Manufacturing\";
+                oNetDrive.MapDrive(ldata.Username, ldata.Password);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(this, "Error: " + err.Message);
+            }
+            oNetDrive = null;
+
+
+            //1
+            //NetworkCredential theNetworkCredential = new NetworkCredential(@"AXISNET\" + ldata.Username, ldata.Password);
+            //CredentialCache theNetCache = new CredentialCache();
+            //theNetCache.Add(new Uri(@"\\galaxis.axis.com\suppliers\Manufacturing\"), "Basic", theNetworkCredential);
+            ////string[] theFolders = Directory.GetDirectories(@"\\computer\share");
+
+
+
+            //Uri webUri = new Uri("http://galaxis.axis.com");
+            //var handler = new SPHttpClientHandler(webUri, ldata.Username, ldata.Password);
+            //using (var client = new HttpClient(handler))
+            //{
+            //    client.BaseAddress = webUri;
+
+            //    var result = client.GetAsync("/_api/web/lists").Result;
+            //    var content = result.Content.ReadAsStringAsync().Result;
+            //}
+
+            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
+            CreateSearchDirs(DirectoryArray);
+
+
+
+
         }
     }
 }

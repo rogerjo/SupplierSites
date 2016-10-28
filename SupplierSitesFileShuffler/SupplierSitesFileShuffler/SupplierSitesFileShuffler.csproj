@@ -195,6 +195,7 @@
     </ApplicationDefinition>
     <Compile Include="GalaxisConnect.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="NetworkDrive.cs" />
     <Compile Include="ViewFile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
