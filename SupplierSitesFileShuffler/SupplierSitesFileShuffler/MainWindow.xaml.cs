@@ -350,42 +350,24 @@ namespace Renamer
 
         private async void LoginScreen()
         {
-            LoginDialogSettings ms = new LoginDialogSettings();
-            ms.ColorScheme = MetroDialogColorScheme.Accented;
-            ms.EnablePasswordPreview = true;
-            LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
+            ////Create Login dialog
+            //LoginDialogSettings ms = new LoginDialogSettings();
+            //ms.ColorScheme = MetroDialogColorScheme.Accented;
+            //ms.EnablePasswordPreview = true;
+            //LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
 
-            NetworkDrive oNetDrive = new aejw.Network.NetworkDrive();
+            NetworkDrive oNetDrive = new NetworkDrive();
             try
             {
                 oNetDrive.LocalDrive = "K:";
-                oNetDrive.ShareName = @"\\galaxis.axis.com\suppliers\Manufacturing\";
-                oNetDrive.MapDrive(ldata.Username, ldata.Password);
+                oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
+                oNetDrive.MapDrive();
             }
             catch (Exception err)
             {
-                MessageBox.Show(this, "Error: " + err.Message);
+                ShowMessageBox("Information: You can still continue.", err.Message);
             }
             oNetDrive = null;
-
-
-            //1
-            //NetworkCredential theNetworkCredential = new NetworkCredential(@"AXISNET\" + ldata.Username, ldata.Password);
-            //CredentialCache theNetCache = new CredentialCache();
-            //theNetCache.Add(new Uri(@"\\galaxis.axis.com\suppliers\Manufacturing\"), "Basic", theNetworkCredential);
-            ////string[] theFolders = Directory.GetDirectories(@"\\computer\share");
-
-
-
-            //Uri webUri = new Uri("http://galaxis.axis.com");
-            //var handler = new SPHttpClientHandler(webUri, ldata.Username, ldata.Password);
-            //using (var client = new HttpClient(handler))
-            //{
-            //    client.BaseAddress = webUri;
-
-            //    var result = client.GetAsync("/_api/web/lists").Result;
-            //    var content = result.Content.ReadAsStringAsync().Result;
-            //}
 
             string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
             CreateSearchDirs(DirectoryArray);
