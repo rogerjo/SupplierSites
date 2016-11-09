@@ -39,7 +39,8 @@ namespace Renamer
         {
             foreach (string item in array)
             {
-                SearchDirs.Add(item);
+                string replaced = item.Replace("K:\\", @"\\galaxis.axis.com\suppliers\Manufacturing\");
+                SearchDirs.Add(replaced);
             }
 
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Documents");
@@ -61,6 +62,7 @@ namespace Renamer
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Junda2");
             SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SitePages");
+
             return array;
         }
 
@@ -76,9 +78,23 @@ namespace Renamer
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _source;
-            LoginScreen();
+
+            if (!Directory.Exists(Path.GetPathRoot(@"K:\")))
+            {
+                LoginScreen();
+
+            }
+            else
+            {
+                string[] DirectoryArray = Directory.GetDirectories(@"K:\");
+                CreateSearchDirs(DirectoryArray);
+
+            }
+
             return;
         }
+
+
 
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
@@ -192,7 +208,7 @@ namespace Renamer
                                 {
                                     viewer.CopySite = location;
                                     viewer.SiteFound = true;
-                                    viewer.Supplier = location.Remove(0, 43);
+                                    viewer.Supplier = location.Remove(0, 42);
                                     viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
                                 }
                                 else
@@ -208,7 +224,7 @@ namespace Renamer
                                         SiteFound = true,
                                         Version = names[1] + "." + names[2],
                                         Status = FileState,
-                                        Supplier = location.Remove(0, 43),
+                                        Supplier = location.Remove(0, 42),
                                         FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
                                         NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
                                     });
@@ -350,31 +366,31 @@ namespace Renamer
 
         private async void LoginScreen()
         {
-            ////Create Login dialog
-            //LoginDialogSettings ms = new LoginDialogSettings();
-            //ms.ColorScheme = MetroDialogColorScheme.Accented;
-            //ms.EnablePasswordPreview = true;
-            //LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
-
+            //Create Login dialog
+            LoginDialogSettings ms = new LoginDialogSettings();
+            ms.ColorScheme = MetroDialogColorScheme.Accented;
+            ms.EnablePasswordPreview = true;
+            LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
             NetworkDrive oNetDrive = new NetworkDrive();
+
             try
             {
                 oNetDrive.LocalDrive = "K:";
                 oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
-                oNetDrive.MapDrive();
+                oNetDrive.Persistent = false;
+                oNetDrive.SaveCredentials = true;
+                oNetDrive.MapDrive(ldata.Username, ldata.Password);
             }
             catch (Exception err)
             {
-                //ShowMessageBox("Information: You can still continue.", err.Message);
+                ShowMessageBox("Information: You can still continue.", err.Message);
             }
             oNetDrive = null;
 
-            string[] DirectoryArray = Directory.GetDirectories(@"\\galaxis.axis.com\suppliers\Manufacturing\");
+            string[] DirectoryArray = Directory.GetDirectories(@"\\10.0.5.41\suppliers\Manufacturing\");
+
             CreateSearchDirs(DirectoryArray);
-
-
-
-
+         
         }
     }
 }
