@@ -343,7 +343,7 @@ namespace Renamer
             }
             catch (Exception err)
             {
-                //ShowMessageBox("Information: You can still continue.", err.Message);
+                ShowMessageBox("Information: You can still continue.", err.Message);
             }
             oNetDrive = null;
 
