@@ -35,7 +35,7 @@ namespace Renamer
 
         public static List<string> SearchDirs = new List<string>();
 
-        
+
 
         public MainWindow()
         {
@@ -162,7 +162,11 @@ namespace Renamer
                         foreach (string location in SupplierArray)
                         {
                             //Getting directories matching the filename
-                            string POLib = location + @"\POLib\";
+                            string POLib = @"K:\" + location.Remove(0, 43) + @"\POLib\";
+
+                            POLib = POLib.Replace(" ", "_");
+                            POLib = POLib.Replace("ö", "o");
+
                             IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
 
                             bool haselements = foundDirectories.Any();
@@ -172,7 +176,7 @@ namespace Renamer
                                 {
                                     viewer.CopySite = location;
                                     viewer.SiteFound = true;
-                                    viewer.Supplier = location.Remove(0, 42);
+                                    viewer.Supplier = location.Remove(0, 43);
                                     viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
                                 }
                                 else
@@ -188,8 +192,8 @@ namespace Renamer
                                         SiteFound = true,
                                         Version = names[1] + "." + names[2],
                                         Status = FileState,
-                                        Supplier = location.Remove(0, 42),
-                                        FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
+                                        Supplier = location.Remove(0, 43),
+                                        FolderName = (@"\\galaxis.axis.com\suppliers\Manufacturing\" + location.Remove(0, 4) + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
                                         NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
                                     });
 
@@ -326,6 +330,23 @@ namespace Renamer
             LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
 
             Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
+
+            NetworkDrive oNetDrive = new NetworkDrive();
+
+            try
+            {
+                oNetDrive.LocalDrive = "K:";
+                oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
+                oNetDrive.Persistent = false;
+                oNetDrive.SaveCredentials = true;
+                oNetDrive.MapDrive(ldata.Username, ldata.Password);
+            }
+            catch (Exception err)
+            {
+                //ShowMessageBox("Information: You can still continue.", err.Message);
+            }
+            oNetDrive = null;
+
         }
     }
 }
