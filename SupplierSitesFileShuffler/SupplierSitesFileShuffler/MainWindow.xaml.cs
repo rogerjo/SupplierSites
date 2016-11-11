@@ -35,36 +35,7 @@ namespace Renamer
 
         public static List<string> SearchDirs = new List<string>();
 
-        public string[] CreateSearchDirs(string[] array)
-        {
-            foreach (string item in array)
-            {
-                string replaced = item.Replace("K:\\", @"\\galaxis.axis.com\suppliers\Manufacturing\");
-                SearchDirs.Add(replaced);
-            }
-
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Documents");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\images");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Pages");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Test");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\PublishingImages");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\WorkflowTasks");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\_private");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\_catalogs");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SiteAssets");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Access Requests");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Manufacturing_Template_Site_0");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\manufacturing_template1");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Goodway2");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Lists");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\_cts");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\m");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\Junda2");
-            SearchDirs.Remove(@"\\galaxis.axis.com\suppliers\Manufacturing\SitePages");
-
-            return array;
-        }
+        
 
         public MainWindow()
         {
@@ -79,17 +50,10 @@ namespace Renamer
         {
             dataGrid.ItemsSource = _source;
 
-            if (!Directory.Exists(Path.GetPathRoot(@"K:\")))
-            {
-                LoginScreen();
+            LoginScreen();
 
-            }
-            else
-            {
-                string[] DirectoryArray = Directory.GetDirectories(@"K:\");
-                CreateSearchDirs(DirectoryArray);
-
-            }
+            //string[] DirectoryArray = Directory.GetDirectories(@"K:\");
+            //Helper.CreateSearchDirs(DirectoryArray);
 
             return;
         }
@@ -351,18 +315,7 @@ namespace Renamer
             dropimage.Opacity = 0.40;
         }
 
-        private void GalaxisLogin(Uri webUri, string userName, string password)
-        {
-            //Usage
-            var handler = new SPHttpClientHandler(webUri, userName, password);
-            using (var client = new HttpClient(handler))
-            {
-                client.BaseAddress = webUri;
 
-                var result = client.GetAsync("/_api/web/lists").Result;
-                var content = result.Content.ReadAsStringAsync().Result;
-            }
-        }
 
         private async void LoginScreen()
         {
@@ -371,26 +324,8 @@ namespace Renamer
             ms.ColorScheme = MetroDialogColorScheme.Accented;
             ms.EnablePasswordPreview = true;
             LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
-            NetworkDrive oNetDrive = new NetworkDrive();
 
-            try
-            {
-                oNetDrive.LocalDrive = "K:";
-                oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
-                oNetDrive.Persistent = false;
-                oNetDrive.SaveCredentials = true;
-                oNetDrive.MapDrive(ldata.Username, ldata.Password);
-            }
-            catch (Exception err)
-            {
-                ShowMessageBox("Information: You can still continue.", err.Message);
-            }
-            oNetDrive = null;
-
-            string[] DirectoryArray = Directory.GetDirectories(@"\\10.0.5.41\suppliers\Manufacturing\");
-
-            CreateSearchDirs(DirectoryArray);
-         
+            Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
         }
     }
 }

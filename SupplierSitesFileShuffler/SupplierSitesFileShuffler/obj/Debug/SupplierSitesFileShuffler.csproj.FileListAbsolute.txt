@@ -101,4 +101,3 @@ C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSi
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.application
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.exe
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.pdb
-C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
