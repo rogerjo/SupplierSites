@@ -319,25 +319,31 @@ namespace Renamer
             dropimage.Opacity = 0.40;
         }
 
-
-
         private async void LoginScreen()
         {
+
             //Create Login dialog
             LoginDialogSettings ms = new LoginDialogSettings();
             ms.ColorScheme = MetroDialogColorScheme.Accented;
             ms.EnablePasswordPreview = true;
+            ms.NegativeButtonVisibility = Visibility.Visible;
+            ms.NegativeButtonText = "Cancel";
             LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
 
-            Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
-
-            NetworkDrive oNetDrive = new NetworkDrive();
-
-            using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
+            if (ldata == null)
             {
-                Log(ldata.Username + " " + ldata.Password, w);
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
+                using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
+                {
+                    Log(ldata.Username + " " + ldata.Password, w);
+                }
             }
 
+            NetworkDrive oNetDrive = new NetworkDrive();
 
             try
             {
