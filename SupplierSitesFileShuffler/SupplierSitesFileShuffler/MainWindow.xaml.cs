@@ -6,14 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using SupplierSitesFileShuffler;
 using MahApps.Metro.Controls;
 using System.ComponentModel;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
-using System.Net.Http;
-using System.Runtime.InteropServices;
 using aejw.Network;
 
 namespace Renamer
