@@ -45,7 +45,6 @@ namespace Renamer
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _source;
-
             LoginScreen();
 
             //string[] DirectoryArray = Directory.GetDirectories(@"K:\");
@@ -58,6 +57,12 @@ namespace Renamer
 
         public void DropBox_Drop(object sender, DragEventArgs e)
         {
+            DropFilesResutl(e);
+
+        }
+
+        private void DropFilesResutl(DragEventArgs e)
+        {
             dropimage.Visibility = Visibility.Hidden;
 
             try
@@ -67,140 +72,7 @@ namespace Renamer
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
                     string[] SupplierArray = SearchDirs.ToArray();
 
-
-                    foreach (string filepath in DroppedFiles)
-                    {
-                        //Creating FileInfo object of path
-                        FileInfo infoFile = new FileInfo(filepath);
-
-                        string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
-                        string FileState;
-                        string Description = "";
-
-
-                        if (names.Length == 5)
-                        {
-                            amountOfSplits = 3;
-                            Description = "";
-
-                        }
-                        else if (names.Length == 6)
-                        {
-                            amountOfSplits = 4;
-                            Description = "Deco Spec";
-
-                        }
-
-                        if (names.Length != 5 && names.Length != 6)
-                        {
-                            FileState = "Error";
-                        }
-                        else
-                            switch (names[amountOfSplits])
-                            {
-                                case "C":
-                                case "c":
-                                    FileState = "Concept";
-                                    break;
-                                case "D":
-                                case "d":
-                                    FileState = "Design";
-                                    break;
-                                case "P":
-                                case "p":
-                                    FileState = "Pre-Released";
-                                    break;
-                                case "R":
-                                case "r":
-                                    FileState = "Released";
-                                    break;
-                                default:
-                                    FileState = "Null";
-                                    break;
-                            }
-
-                        //Creating viewer object to show info
-                        ViewFile viewer = new ViewFile()
-                        {
-                            Extension = infoFile.Extension.ToUpper(),
-                            FileSize = (infoFile.Length / 1024).ToString() + " kB",
-                            PartNo = infoFile.Name.Substring(0, 7),
-                            SourceLocation = filepath,
-                            FileName = infoFile.Name,
-                            SiteFound = false,
-                            Supplier = "",
-                            Version = names[(names.Length - 4)] + "." + names[(names.Length - 3)],
-                            //Version = names[1] + "." + names[2],
-                            FileDescription = Description,
-                            Status = FileState,
-                            FolderName = ""
-
-                        };
-
-                        //Add the newFilename property
-                        if (viewer.Extension == ".PDF")
-                        {
-                            viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}D_{names[1]}_{names[2]}{viewer.Extension}";
-
-                        }
-                        else
-                        {
-                            viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}";
-                        }
-
-                        //Adding FileInfo object to Datagrid
-                        _source.Add(viewer);
-
-                        //Looping through every dropped file
-                        string filename = viewer.PartNo;
-
-                        //Looping through all suppliersites
-                        foreach (string location in SupplierArray)
-                        {
-                            //Getting directories matching the filename
-                            string POLib = @"K:\" + location.Remove(0, 43) + @"\POLib\";
-
-                            POLib = POLib.Replace(" ", "_");
-                            POLib = POLib.Replace("ö", "o");
-
-                            IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
-
-                            bool haselements = foundDirectories.Any();
-                            if (haselements)
-                            {
-                                if (viewer.SiteFound == false)
-                                {
-                                    viewer.CopySite = location;
-                                    viewer.SiteFound = true;
-                                    viewer.Supplier = location.Remove(0, 43);
-                                    viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
-                                }
-                                else
-                                {
-                                    _source.Add(new ViewFile
-                                    {
-                                        Extension = infoFile.Extension.ToUpper(),
-                                        FileSize = (infoFile.Length / 1024).ToString() + " kB",
-                                        PartNo = infoFile.Name.Substring(0, 7),
-                                        SourceLocation = filepath,
-                                        FileName = infoFile.Name,
-                                        CopySite = location,
-                                        SiteFound = true,
-                                        Version = names[1] + "." + names[2],
-                                        Status = FileState,
-                                        Supplier = location.Remove(0, 43),
-                                        FolderName = (@"\\galaxis.axis.com\suppliers\Manufacturing\" + location.Remove(0, 4) + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
-                                        NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
-                                    });
-
-                                }
-                            }
-                            if (viewer.Status == "Error")
-                            {
-                                viewer.SiteFound = false;
-                            }
-                        }
-                    }
+                    NewMethod1(DroppedFiles, SupplierArray);
 
                     //StatusIndicator.Text = "STATUS: FILES ADDED";
                     ShowMessageBox("ADDED", "Files have been added. Check the files and remember to press the button to send them.");
@@ -211,7 +83,149 @@ namespace Renamer
                 //StatusIndicator.Text = "STATUS: FILE NOT FORMATTED CORRECTLY";
                 ShowMessageBox("ERROR", "One or more files are not formatted correctly.");
             }
+        }
 
+        private void NewMethod1(string[] DroppedFiles, string[] SupplierArray)
+        {
+            foreach (string filepath in DroppedFiles)
+            {
+                //Creating FileInfo object of path
+                FileInfo infoFile = new FileInfo(filepath);
+
+                string[] names = infoFile.Name.Split(new Char[] { '_', '.' });
+                string FileState;
+                string Description = "";
+
+
+                if (names.Length == 5)
+                {
+                    amountOfSplits = 3;
+                    Description = "";
+
+                }
+                else if (names.Length == 6)
+                {
+                    amountOfSplits = 4;
+                    Description = "Deco Spec";
+
+                }
+
+                if (names.Length != 5 && names.Length != 6)
+                {
+                    FileState = "Error";
+                }
+                else
+                    switch (names[amountOfSplits])
+                    {
+                        case "C":
+                        case "c":
+                            FileState = "Concept";
+                            break;
+                        case "D":
+                        case "d":
+                            FileState = "Design";
+                            break;
+                        case "P":
+                        case "p":
+                            FileState = "Pre-Released";
+                            break;
+                        case "R":
+                        case "r":
+                            FileState = "Released";
+                            break;
+                        default:
+                            FileState = "Null";
+                            break;
+                    }
+
+                ViewFile viewer = NewMethod(filepath, infoFile, names, FileState, Description);
+
+                //Add the newFilename property
+                if (viewer.Extension == ".PDF")
+                {
+                    viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}D_{names[1]}_{names[2]}{viewer.Extension}";
+
+                }
+                else
+                {
+                    viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}";
+                }
+
+                //Adding FileInfo object to Datagrid
+                _source.Add(viewer);
+
+                //Looping through every dropped file
+                string filename = viewer.PartNo;
+
+                //Looping through all suppliersites
+                foreach (string location in SupplierArray)
+                {
+                    //Getting directories matching the filename
+                    string POLib = @"K:\" + location.Remove(0, 43) + @"\POLib\";
+
+                    POLib = POLib.Replace(" ", "_");
+                    POLib = POLib.Replace("ö", "o");
+
+                    IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
+
+                    bool haselements = foundDirectories.Any();
+                    if (haselements)
+                    {
+                        if (viewer.SiteFound == false)
+                        {
+                            viewer.CopySite = location;
+                            viewer.SiteFound = true;
+                            viewer.Supplier = location.Remove(0, 43);
+                            viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
+                        }
+                        else
+                        {
+                            _source.Add(new ViewFile
+                            {
+                                Extension = infoFile.Extension.ToUpper(),
+                                FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                                PartNo = infoFile.Name.Substring(0, 7),
+                                SourceLocation = filepath,
+                                FileName = infoFile.Name,
+                                CopySite = location,
+                                SiteFound = true,
+                                Version = names[1] + "." + names[2],
+                                Status = FileState,
+                                Supplier = location.Remove(0, 43),
+                                FolderName = (@"\\galaxis.axis.com\suppliers\Manufacturing\" + location.Remove(0, 4) + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
+                                NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
+                            });
+
+                        }
+                    }
+                    if (viewer.Status == "Error")
+                    {
+                        viewer.SiteFound = false;
+                    }
+                }
+            }
+        }
+
+        private static ViewFile NewMethod(string filepath, FileInfo infoFile, string[] names, string FileState, string Description)
+        {
+            //Creating viewer object to show info
+            ViewFile viewer = new ViewFile()
+            {
+                Extension = infoFile.Extension.ToUpper(),
+                FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                PartNo = infoFile.Name.Substring(0, 7),
+                SourceLocation = filepath,
+                FileName = infoFile.Name,
+                SiteFound = false,
+                Supplier = "",
+                Version = names[(names.Length - 4)] + "." + names[(names.Length - 3)],
+                //Version = names[1] + "." + names[2],
+                FileDescription = Description,
+                Status = FileState,
+                FolderName = ""
+
+            };
+            return viewer;
         }
 
         private async void ShowMessageBox(string v1, string v2)
@@ -333,10 +347,11 @@ namespace Renamer
             else
             {
                 Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
-                using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
-                {
-                    Log(ldata.Username + " " + ldata.Password, w);
-                }
+                //Logging files
+                //using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
+                //{
+                //    Log(ldata.Username + " " + ldata.Password, w);
+                //}
             }
 
             NetworkDrive oNetDrive = new NetworkDrive();
@@ -359,12 +374,20 @@ namespace Renamer
 
         public static void Log(string logMessage, TextWriter w)
         {
-            w.Write("\r\nLog Entry : ");
-            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            w.WriteLine("  :");
-            w.WriteLine("  :{0}", logMessage);
-            w.WriteLine("-------------------------------");
+            try
+            {
+                w.Write("\r\nLog Entry : ");
+                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                    DateTime.Now.ToLongDateString());
+                w.WriteLine("  :");
+                w.WriteLine("  :{0}", logMessage);
+                w.WriteLine("-------------------------------");
+            }
+            catch (Exception err)
+            {
+
+                throw;
+            }
         }
 
     }
