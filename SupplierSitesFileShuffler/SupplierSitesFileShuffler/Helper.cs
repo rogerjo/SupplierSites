@@ -67,7 +67,6 @@ namespace Renamer
 
                 for (int i = 0; i < search.Count; i++)
                 {
-                    //search[i] = @"http://galaxis.axis.com/suppliers/Manufacturing/" + search[i];
                     search[i] = @"\\galaxis.axis.com\suppliers\Manufacturing\" + search[i];
                 }
 

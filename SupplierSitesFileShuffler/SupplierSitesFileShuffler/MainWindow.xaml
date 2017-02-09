@@ -4,16 +4,38 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:local="clr-namespace:Renamer"
+                      xmlns:metro="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       Title="fileshuffler (cyan edition)"
                       Height="500"
                       Width="900"
                       ShowMaxRestoreButton='False'
-                      ResizeMode='NoResize'                      
+                      ResizeMode='NoResize'
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       WindowTransitionsEnabled="False"
                       WindowStartupLocation="CenterScreen">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,0,8,0"
+                           VerticalAlignment="Center"
+                           Text="Change App Style..." />
+                <ComboBox x:Name="AccentSelector"
+                          Margin="0 0 2 0"
+                          VerticalAlignment="Center"
+                          SelectionChanged="AccentSelectionChanged"
+                          ItemsSource="{x:Static metro:ThemeManager.Accents}"
+                          MinWidth='80'>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid Margin="0,0,0,0">
 
         <Grid.RowDefinitions>
@@ -43,28 +65,28 @@
 
                 <DataGridTextColumn Header='Part Number'
                                     Binding='{Binding PartNo}'
-                                    Width='1.3*'/>
+                                    Width='1.3*' />
                 <DataGridTextColumn Header='Description'
                                     Binding='{Binding FileDescription}'
                                     Width='1.3*' />
                 <DataGridTextColumn Header='Filetype'
                                     Binding='{Binding Extension}'
-                                    Width='0.9*'/>
+                                    Width='0.9*' />
                 <DataGridTextColumn Header='File Size'
                                     Binding='{Binding FileSize}'
-                                    Width='1*'/>
+                                    Width='1*' />
                 <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         Header='Copy status'
                                         Binding='{Binding SiteFound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}'
-                                        Width='1.2*'/>
+                                        Width='1.2*' />
                 <DataGridTextColumn Header='Supplier'
                                     Binding='{Binding Supplier}'
                                     Width='1.2*' />
                 <DataGridTextColumn Header='Version'
                                     Binding='{Binding Version, Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}'
-                                    Width='0.9*'/>
+                                    Width='0.9*' />
                 <DataGridTextColumn Header='Status'
                                     Binding='{Binding Status, Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}'

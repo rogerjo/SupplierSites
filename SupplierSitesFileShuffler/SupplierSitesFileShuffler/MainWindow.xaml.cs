@@ -11,6 +11,8 @@ using MahApps.Metro.Controls;
 using System.ComponentModel;
 using MahApps.Metro.Controls.Dialogs;
 using aejw.Network;
+using System.Windows.Media;
+using MahApps.Metro;
 
 namespace Renamer
 {
@@ -18,6 +20,18 @@ namespace Renamer
     public partial class MainWindow : MetroWindow
     {
         int amountOfSplits;
+
+        public static readonly DependencyProperty ColorsProperty
+    = DependencyProperty.Register("Colors",
+                                  typeof(List<KeyValuePair<string, Color>>),
+                                  typeof(MainWindow),
+                                  new PropertyMetadata(default(List<KeyValuePair<string, Color>>)));
+
+        public List<KeyValuePair<string, Color>> Colors
+        {
+            get { return (List<KeyValuePair<string, Color>>)GetValue(ColorsProperty); }
+            set { SetValue(ColorsProperty, value); }
+        }
 
         // Create the OBSCOLL to bind
         public static ObservableCollection<ViewFile> ViewSource
@@ -36,10 +50,18 @@ namespace Renamer
         public MainWindow()
         {
             InitializeComponent();
+
             this.DataContext = this;
             this.Loaded += MainWindow_Loaded;
 
+            this.Colors = typeof(Colors)
+    .GetProperties()
+    .Where(prop => typeof(Color).IsAssignableFrom(prop.PropertyType))
+    .Select(prop => new KeyValuePair<String, Color>(prop.Name, (Color)prop.GetValue(null)))
+    .ToList();
 
+            var theme = ThemeManager.DetectAppStyle(Application.Current);
+            ThemeManager.ChangeAppStyle(this, theme.Item2, theme.Item1);
         }
 
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -51,6 +73,16 @@ namespace Renamer
             //Helper.CreateSearchDirs(DirectoryArray);
 
             return;
+        }
+
+        private void AccentSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AccentSelector.SelectedItem is Accent selectedAccent)
+            {
+                var theme = ThemeManager.DetectAppStyle(Application.Current);
+                ThemeManager.ChangeAppStyle(Application.Current, selectedAccent, theme.Item1);
+                Application.Current.MainWindow.Activate();
+            }
         }
 
 
