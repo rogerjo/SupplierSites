@@ -48,29 +48,38 @@ namespace Renamer
             {
                 context.Credentials = new NetworkCredential(loginName, loginPasswd, "AXISNET");
 
-                ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/");
-                Web oWebsite = clientContext.Web;
-                clientContext.Load(oWebsite, website => website.Webs, website => website.Title);
-                clientContext.ExecuteQuery();
-                foreach (Web orWebsite in oWebsite.Webs)
+
+                try
                 {
-                    search.Add(orWebsite.Title);
+
+                    ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/");
+                    Web oWebsite = clientContext.Web;
+                    clientContext.Load(oWebsite, website => website.Webs, website => website.Title);
+                    clientContext.ExecuteQuery();
+                    foreach (Web orWebsite in oWebsite.Webs)
+                    {
+                        search.Add(orWebsite.Title);
+                    }
+
+                    //Remove directories that are not suppliers
+
+                    search.Remove(@"Manufacturing_Template_Site_0");
+                    search.Remove(@"manufacturing_template1");
+                    search.Remove(@"Junda 2");
+                    search.Remove(@"Goodway 2");
+
+
+                    for (int i = 0; i < search.Count; i++)
+                    {
+                        search[i] = @"\\galaxis.axis.com\suppliers\Manufacturing\" + search[i];
+                    }
+                }
+                catch (Exception e)
+                {
+                    
                 }
 
-                //Remove directories that are not suppliers
 
-                search.Remove(@"Manufacturing_Template_Site_0");
-                search.Remove(@"manufacturing_template1");
-                search.Remove(@"Junda 2");
-                search.Remove(@"Goodway 2");
-
-
-                for (int i = 0; i < search.Count; i++)
-                {
-                    search[i] = @"\\galaxis.axis.com\suppliers\Manufacturing\" + search[i];
-                }
-
-                
             }
 
             return search;

@@ -140,3 +140,4 @@ C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\
 C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.application
 C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.exe
 C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.pdb
+C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache

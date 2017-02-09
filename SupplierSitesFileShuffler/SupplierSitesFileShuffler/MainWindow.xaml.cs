@@ -13,6 +13,7 @@ using MahApps.Metro.Controls.Dialogs;
 using aejw.Network;
 using System.Windows.Media;
 using MahApps.Metro;
+using SupplierSitesFileShuffler.Properties;
 
 namespace Renamer
 {
@@ -55,10 +56,10 @@ namespace Renamer
             this.Loaded += MainWindow_Loaded;
 
             this.Colors = typeof(Colors)
-    .GetProperties()
-    .Where(prop => typeof(Color).IsAssignableFrom(prop.PropertyType))
-    .Select(prop => new KeyValuePair<String, Color>(prop.Name, (Color)prop.GetValue(null)))
-    .ToList();
+                .GetProperties()
+                .Where(prop => typeof(Color).IsAssignableFrom(prop.PropertyType))
+                .Select(prop => new KeyValuePair<String, Color>(prop.Name, (Color)prop.GetValue(null)))
+                .ToList();
 
             var theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(this, theme.Item2, theme.Item1);
@@ -67,10 +68,10 @@ namespace Renamer
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _source;
-            LoginScreen();
 
-            //string[] DirectoryArray = Directory.GetDirectories(@"K:\");
-            //Helper.CreateSearchDirs(DirectoryArray);
+            AccentSelector.Text = Settings.Default.ThemeColour;
+
+            LoginScreen();
 
             return;
         }
@@ -81,6 +82,10 @@ namespace Renamer
             {
                 var theme = ThemeManager.DetectAppStyle(Application.Current);
                 ThemeManager.ChangeAppStyle(Application.Current, selectedAccent, theme.Item1);
+
+                Settings.Default.ThemeColour = AccentSelector.Text;
+                Settings.Default.Save();
+
                 Application.Current.MainWindow.Activate();
             }
         }
