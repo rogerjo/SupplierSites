@@ -18,7 +18,6 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.csproj.GenerateResource.Cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\MahApps.Metro.dll
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\System.Windows.Interactivity.dll
-C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\App.baml
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\FileShuffler.exe.config
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\FileShuffler.exe.manifest
@@ -35,7 +34,6 @@ C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\Suppli
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\FileShuffler.pdb
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\MahApps.Metro.pdb
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\MahApps.Metro.xml
-C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\SupplierSitesFileShuffler_TemporaryKey.pfx
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\Microsoft.SharePoint.Client.Runtime.Windows.dll
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\FileShuffler.exe.config
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\FileShuffler.exe.manifest
@@ -75,3 +73,5 @@ C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSi
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\FileShuffler.application
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\FileShuffler.exe
 C:\Users\rogerjn\Source\Repos\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\FileShuffler.pdb
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Release\Microsoft.ProjectServer.Client.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Release\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache

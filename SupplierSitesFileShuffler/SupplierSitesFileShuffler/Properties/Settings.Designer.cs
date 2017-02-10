@@ -25,7 +25,7 @@ namespace SupplierSitesFileShuffler.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cyan")]
         public string ThemeColour {
             get {
                 return ((string)(this["ThemeColour"]));

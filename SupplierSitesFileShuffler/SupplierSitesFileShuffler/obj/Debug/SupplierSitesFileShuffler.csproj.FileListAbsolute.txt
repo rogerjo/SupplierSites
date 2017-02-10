@@ -141,3 +141,4 @@ C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\
 C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\FileShuffler.pdb
 C:\Users\rogerjn\Documents\GitHub\Metro\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
 C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\bin\Debug\Microsoft.ProjectServer.Client.dll
+C:\Users\rogerjn\Documents\GitHub\SupplierSites\SupplierSitesFileShuffler\SupplierSitesFileShuffler\obj\Debug\SupplierSitesFileShuffler.csprojResolveAssemblyReference.cache
