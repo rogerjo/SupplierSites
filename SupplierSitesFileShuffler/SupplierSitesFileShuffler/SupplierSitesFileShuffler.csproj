@@ -177,12 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\..\..\..\..\Desktop\ThemeManagerHelper.cs">
-      <Link>ThemeManagerHelper.cs</Link>
-    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="NetworkDrive.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="ThemeManagerHelper.cs" />
     <Compile Include="ViewFile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

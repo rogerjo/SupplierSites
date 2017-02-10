@@ -69,8 +69,8 @@ namespace Renamer
         {
             dataGrid.ItemsSource = _source;
 
-            AccentSelector.Text = Settings.Default.ThemeColour;
-
+            Accent currentAccent = ThemeManager.GetAccent(Settings.Default.ThemeColour);
+            ThemeManager.ChangeAppStyle(Application.Current, currentAccent , ThemeManager.DetectAppStyle(Application.Current).Item1);
             LoginScreen();
 
             return;
@@ -78,12 +78,13 @@ namespace Renamer
 
         private void AccentSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AccentSelector.SelectedItem is Accent selectedAccent)
+            var selectedAccent = AccentSelector.SelectedItem as Accent;
+            if (selectedAccent != null)
             {
                 var theme = ThemeManager.DetectAppStyle(Application.Current);
                 ThemeManager.ChangeAppStyle(Application.Current, selectedAccent, theme.Item1);
 
-                Settings.Default.ThemeColour = AccentSelector.Text;
+                Settings.Default.ThemeColour = selectedAccent.Name;
                 Settings.Default.Save();
 
                 Application.Current.MainWindow.Activate();
