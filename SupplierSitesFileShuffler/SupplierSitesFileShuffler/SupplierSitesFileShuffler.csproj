@@ -64,10 +64,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4A28D301FE65D2158EE6F86893129400892D6302</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E328D251F34A34C4AC2CDB9B4B51DF9FFAD3E338</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SupplierSitesFileShuffler_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SupplierSitesFileShuffler_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
