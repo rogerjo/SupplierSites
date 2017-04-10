@@ -11,7 +11,7 @@
                       Height="500"
                       Width="900"
                       ShowMaxRestoreButton='False'
-                      ResizeMode='NoResize'
+                      ResizeMode='CanResizeWithGrip'
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       WindowTransitionsEnabled="False"
                       WindowStartupLocation="CenterScreen">
@@ -37,21 +37,34 @@
             </StackPanel>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <Grid Margin="0,0,0,0">
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FFE8E2D8" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize"
+                    Value="16" />
+            <Setter Property="FontWeight"
+                    Value="DemiBold" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,0,0,0"
+          Background="#FFE8E2D8">
 
         <Grid.RowDefinitions>
             <RowDefinition Height='54' />
             <RowDefinition Height="77*" />
-            <RowDefinition Height='13*' />
-            <RowDefinition Height="35" />
+            <RowDefinition Height='55' />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
+
         <DataGrid x:Name='dataGrid'
                   HorizontalAlignment='Left'
-                  Margin='10,10,0,0'
                   Grid.Row='1'
                   VerticalAlignment='Top'
-                  Height='302'
-                  Width='872'
+                  Visibility="Visible"
                   AutoGenerateColumns='False'
                   AllowDrop='True'
                   Drop="DropBox_Drop"
@@ -60,7 +73,9 @@
                   FontSize="14"
                   Style='{StaticResource AzureDataGrid}'
                   CanUserAddRows="false"
-                  ItemsSource='{Binding ViewSource}'>
+                  ItemsSource='{Binding ViewSource}'
+                  Margin="10,10,10,0"
+                  Background="#FFE8E2D8">
 
             <DataGrid.Columns>
 
@@ -85,14 +100,14 @@
                                     Binding='{Binding Supplier}'
                                     Width='1.2*' />
                 <DataGridTextColumn Header='Version'
-                                    Binding='{Binding Version, Mode=TwoWay,
-                    UpdateSourceTrigger=PropertyChanged}'
+                                    Binding='{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}'
                                     Width='0.9*' />
                 <DataGridTextColumn Header='Status'
-                                    Binding='{Binding Status, Mode=TwoWay,
-                    UpdateSourceTrigger=PropertyChanged}'
+                                    Binding='{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}'
                                     Width='1*' />
-
+                <DataGridTextColumn Header="sourcelocation"
+                                    Binding="{Binding SourceLocation}"
+                                    Visibility="Collapsed" />
                 <DataGridTemplateColumn  Header="Link"
                                          Width='0.8*'>
 
@@ -102,13 +117,12 @@
                                     Click="LinkButton_Click"
                                     CommandParameter='{Binding FolderName}'
                                     Style="{StaticResource AccentedSquareButtonStyle}"
-                                    Height='32'>Link</Button>
+                                    Height='32'
+                                    Content="Link" />
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-
             </DataGrid.Columns>
 
         </DataGrid>
@@ -132,20 +146,29 @@
                 Content='Clear Content'
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 HorizontalAlignment='Left'
-                Margin='229,10,0,0'
                 Grid.Row='2'
-                VerticalAlignment='Top'
+                VerticalAlignment='Center'
                 Width='115'
                 Click='clear_button_Click'
-                Height='32' />
+                Height='32'
+                MinWidth="120"
+                MaxWidth="120"
+                MaxHeight="25"
+                MinHeight="32"
+                Margin="30,0,0,0" />
         <Button x:Name='send_button'
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 Content='Send to supplier sites'
-                Margin='493,10,229,0'
                 Grid.Row='2'
-                VerticalAlignment='Top'
+                VerticalAlignment='Center'
                 Click='send_button_Click'
-                Height='32' />
+                HorizontalAlignment="Right"
+                Height='32'
+                MinWidth="200"
+                MaxWidth="200"
+                MaxHeight="25"
+                MinHeight="32"
+                Margin="0,0,30,0" />
 
         <Controls:ProgressRing x:Name='MyProgressRing'
                                IsActive='False'
@@ -154,7 +177,8 @@
                                Height='100'
                                Width='100'
                                Grid.Row='1'
-                               Margin='296,102,296,106' />
+                               Margin='296,102,296,106'
+                               Visibility="Collapsed" />
         <TextBlock TextWrapping="NoWrap"
                    Text="drop your files below to add them"
                    FontSize="24"

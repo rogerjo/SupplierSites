@@ -74,7 +74,7 @@ namespace Renamer
                         search[i] = @"\\galaxis.axis.com\suppliers\Manufacturing\" + search[i];
                     }
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                     
                 }

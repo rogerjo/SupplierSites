@@ -14,6 +14,10 @@ using aejw.Network;
 using System.Windows.Media;
 using MahApps.Metro;
 using SupplierSitesFileShuffler.Properties;
+using System.Threading.Tasks;
+using System.Security;
+using Microsoft.SharePoint.Client;
+using System.Net;
 
 namespace Renamer
 {
@@ -45,6 +49,9 @@ namespace Renamer
         public static ObservableCollection<ViewFile> _source = new ObservableCollection<ViewFile>();
 
         public static List<string> SearchDirs = new List<string>();
+        public static List<string> DocuSetsList = new List<string>();
+        public string UserName { get; set; }
+        public SecureString Password { get; set; }
 
 
 
@@ -65,14 +72,17 @@ namespace Renamer
             ThemeManager.ChangeAppStyle(this, theme.Item2, theme.Item1);
         }
 
-        public void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        public async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _source;
 
             Accent currentAccent = ThemeManager.GetAccent(Settings.Default.ThemeColour);
-            ThemeManager.ChangeAppStyle(Application.Current, currentAccent , ThemeManager.DetectAppStyle(Application.Current).Item1);
-            LoginScreen();
+            ThemeManager.ChangeAppStyle(Application.Current, currentAccent, ThemeManager.DetectAppStyle(Application.Current).Item1);
 
+            var loginresult = await LoginScreen();
+
+            //Create a list of suppliers from Galaxis
+            SearchDirs = await CreatingSuppliersListAsync(UserName, Password);
             return;
         }
 
@@ -92,14 +102,14 @@ namespace Renamer
         }
 
 
-
-        public void DropBox_Drop(object sender, DragEventArgs e)
+        public async void DropBox_Drop(object sender, DragEventArgs e)
         {
-            DropFilesResutl(e);
+            var succes = await CreateDocuSetsListAsync(SearchDirs);
+            DropFilesResult(e);
 
         }
 
-        private void DropFilesResutl(DragEventArgs e)
+        private void DropFilesResult(DragEventArgs e)
         {
             dropimage.Visibility = Visibility.Hidden;
 
@@ -108,8 +118,10 @@ namespace Renamer
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
-                    string[] SupplierArray = SearchDirs.ToArray();
 
+
+
+                    string[] SupplierArray = SearchDirs.ToArray();
                     NewMethod1(DroppedFiles, SupplierArray);
 
                     //StatusIndicator.Text = "STATUS: FILES ADDED";
@@ -176,7 +188,7 @@ namespace Renamer
                             break;
                     }
 
-                ViewFile viewer = NewMethod(filepath, infoFile, names, FileState, Description);
+                ViewFile viewer = ViewFileCreator(filepath, infoFile, names, FileState, Description);
 
                 //Add the newFilename property
                 if (viewer.Extension == ".PDF")
@@ -195,29 +207,31 @@ namespace Renamer
                 //Looping through every dropped file
                 string filename = viewer.PartNo;
 
-                //Looping through all suppliersites
-                foreach (string location in SupplierArray)
+                var query = from lib in DocuSetsList
+                            where lib.Contains(filename)
+                            select lib;
+
+                var foundDirectories = query.ToList();
+
+
+                bool haselements = foundDirectories.Any();
+                if (haselements)
                 {
-                    //Getting directories matching the filename
-                    string POLib = @"K:\" + location.Remove(0, 43) + @"\POLib\";
-
-                    POLib = POLib.Replace(" ", "_");
-                    POLib = POLib.Replace("ö", "o");
-
-                    IEnumerable<DirectoryInfo> foundDirectories = new DirectoryInfo(POLib).EnumerateDirectories(filename);
-
-                    bool haselements = foundDirectories.Any();
-                    if (haselements)
+                    if (viewer.SiteFound == false && foundDirectories.Count == 1)
                     {
-                        if (viewer.SiteFound == false)
+                        viewer.CopySite = foundDirectories[0].ToString();
+                        viewer.SiteFound = true;
+                        var supplier = foundDirectories[0].Split(new Char[] { '/' });
+                        viewer.Supplier = supplier[3];
+                        //viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
+                        viewer.FolderName = @"http://www.axis.com/" + foundDirectories[0].ToString();
+                    }
+                    else if (viewer.SiteFound == false && foundDirectories.Count > 1)
+                    {
+                        _source.Remove(viewer);
+                        for (int i = 0; i < foundDirectories.Count; i++)
                         {
-                            viewer.CopySite = location;
-                            viewer.SiteFound = true;
-                            viewer.Supplier = location.Remove(0, 43);
-                            viewer.FolderName = (location + "\\POLib\\" + viewer.PartNo).Replace("\\", "/");
-                        }
-                        else
-                        {
+                            var supplier = foundDirectories[i].Split(new Char[] { '/' });
                             _source.Add(new ViewFile
                             {
                                 Extension = infoFile.Extension.ToUpper(),
@@ -225,26 +239,28 @@ namespace Renamer
                                 PartNo = infoFile.Name.Substring(0, 7),
                                 SourceLocation = filepath,
                                 FileName = infoFile.Name,
-                                CopySite = location,
+                                CopySite = foundDirectories[i].ToString(),
                                 SiteFound = true,
                                 Version = names[1] + "." + names[2],
                                 Status = FileState,
-                                Supplier = location.Remove(0, 43),
-                                FolderName = (@"\\galaxis.axis.com\suppliers\Manufacturing\" + location.Remove(0, 4) + "\\POLib\\" + viewer.PartNo).Replace("\\", "/"),
+                                Supplier = supplier[3],
+                                FolderName = @"http://www.axis.com/" + foundDirectories[i].ToString(),
                                 NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
                             });
 
                         }
                     }
-                    if (viewer.Status == "Error")
-                    {
-                        viewer.SiteFound = false;
-                    }
+
                 }
+                if (viewer.Status == "Error")
+                {
+                    viewer.SiteFound = false;
+                }
+                //}
             }
         }
 
-        private static ViewFile NewMethod(string filepath, FileInfo infoFile, string[] names, string FileState, string Description)
+        private static ViewFile ViewFileCreator(string filepath, FileInfo infoFile, string[] names, string FileState, string Description)
         {
             //Creating viewer object to show info
             ViewFile viewer = new ViewFile()
@@ -367,48 +383,109 @@ namespace Renamer
             dropimage.Opacity = 0.40;
         }
 
-        private async void LoginScreen()
+
+        //Old LoginScreen
+        ////private async void LoginScreen()
+        //{
+
+        //    //Create Login dialog
+        //    LoginDialogSettings ms = new LoginDialogSettings();
+        //    ms.ColorScheme = MetroDialogColorScheme.Accented;
+        //    ms.EnablePasswordPreview = true;
+        //    ms.NegativeButtonVisibility = Visibility.Visible;
+        //    ms.NegativeButtonText = "Cancel";
+        //    LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
+
+        //    if (ldata == null)
+        //    {
+        //        Application.Current.Shutdown();
+        //    }
+        //    else
+        //    {
+        //        Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
+        //        //Logging files
+        //        //using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
+        //        //{
+        //        //    Log(ldata.Username + " " + ldata.Password, w);
+        //        //}
+        //    }
+
+        //    NetworkDrive oNetDrive = new NetworkDrive();
+
+        //    try
+        //    {
+        //        oNetDrive.LocalDrive = "K:";
+        //        oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
+        //        oNetDrive.Persistent = false;
+        //        oNetDrive.SaveCredentials = true;
+        //        oNetDrive.MapDrive(ldata.Username, ldata.Password);
+        //    }
+        //    catch (Exception )
+        //    {
+        //        //ShowMessageBox("Information: You can still continue.", err.Message);
+        //    }
+        //    oNetDrive = null;
+
+        //}
+
+        private async Task<bool> LoginScreen()
         {
-
-            //Create Login dialog
-            LoginDialogSettings ms = new LoginDialogSettings();
-            ms.ColorScheme = MetroDialogColorScheme.Accented;
-            ms.EnablePasswordPreview = true;
-            ms.NegativeButtonVisibility = Visibility.Visible;
-            ms.NegativeButtonText = "Cancel";
-            LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
-
-            if (ldata == null)
+            LoginDialogSettings ms = new LoginDialogSettings()
             {
-                Application.Current.Shutdown();
-            }
-            else
-            {
-                Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
-                //Logging files
-                //using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
-                //{
-                //    Log(ldata.Username + " " + ldata.Password, w);
-                //}
-            }
-
-            NetworkDrive oNetDrive = new NetworkDrive();
-
+                ColorScheme = MetroDialogColorScheme.Accented,
+                EnablePasswordPreview = true,
+                NegativeButtonVisibility = Visibility.Visible,
+                NegativeButtonText = "Cancel"
+            };
             try
-            {
-                oNetDrive.LocalDrive = "K:";
-                oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
-                oNetDrive.Persistent = false;
-                oNetDrive.SaveCredentials = true;
-                oNetDrive.MapDrive(ldata.Username, ldata.Password);
+            {   //Create Login dialog
+                LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
+
+                if (ldata == null)
+                {
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    Password = ldata.SecurePassword;
+                    UserName = ldata.Username;
+                }
+
+                using (ClientContext ctx = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/"))
+                {
+
+                    // SharePoint Online Credentials    
+                    ctx.Credentials = new NetworkCredential(UserName, Password, "AXISNET");
+
+                    // Get the SharePoint web  
+                    Web web = ctx.Web;
+                    ctx.Load(web, website => website.Webs, website => website.Title);
+                    try
+                    {
+                        // Execute the query to the server  
+                        ctx.ExecuteQuery();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        MetroDialogSettings ff = new MetroDialogSettings()
+                        {
+                            ColorScheme = MetroDialogColorScheme.Accented
+                        };
+                        await this.ShowMessageAsync("LOGIN INCORRECT:", "Application will close down", MessageDialogStyle.Affirmative, ff);
+
+                        Application.Current.Shutdown();
+                        return false;
+                    }
+                }
             }
-            catch (Exception err)
+            catch (Exception)
             {
-                //ShowMessageBox("Information: You can still continue.", err.Message);
+                return false;
             }
-            oNetDrive = null;
 
         }
+
 
         public static void Log(string logMessage, TextWriter w)
         {
@@ -421,11 +498,152 @@ namespace Renamer
                 w.WriteLine("  :{0}", logMessage);
                 w.WriteLine("-------------------------------");
             }
-            catch (Exception err)
+            catch (Exception)
             {
 
                 throw;
             }
+        }
+
+        private async Task<bool> CreateDocuSetsListAsync(List<string> _searchdirs)
+
+        {
+            MetroDialogSettings ms = new MetroDialogSettings()
+            {
+                ColorScheme = MetroDialogColorScheme.Accented
+            };
+            var controller = await this.ShowProgressAsync("Please wait...", "Searching all Supplier Sites for you!", false, ms);
+
+            controller.Maximum = _searchdirs.Count;
+            controller.Minimum = 0;
+
+            var result = await Task.Run(() =>
+            {
+                //List<string> ResultList = new List<string>();
+                int counter = 0;
+                foreach (string location in _searchdirs)
+                {
+                    string searchSite = $"http://galaxis.axis.com/suppliers/Manufacturing/{location}/";
+                    counter++;
+
+                    controller.SetProgress((double)counter);
+
+                    using (ClientContext ctx = new ClientContext(searchSite))
+                    {
+                        var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
+
+                        var query = new CamlQuery()
+                        {
+                            //Query for all items in all folders in POLibs
+                            //ViewXml = @"<View Scope='RecursiveAll'></View>"
+
+                            //Query for all NewDocuSets in Part Overview Library
+                            ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>"
+                        };
+
+
+                        var POListItems = POlist.GetItems(query);
+
+
+                        //ctx.Load(POListItems);
+
+                        ctx.Load(POListItems, li => li.Include(i => i["FileRef"]));
+                        ctx.ExecuteQuery();
+
+                        foreach (ListItem item in POListItems)
+                        {
+                            string o = item["FileRef"].ToString();
+                            DocuSetsList.Add(o);
+                        }
+                    }
+                }
+                return true;
+            });
+
+            await controller.CloseAsync();
+            return true;
+        }
+
+        private async Task<List<string>> CreatingSuppliersListAsync(string userName, SecureString password)
+        {
+            try
+            {
+                //Creating Supplier list
+                var createSupplierListResult = await Task.Run(async () =>
+                {
+                    List<string> Supplierlist = new List<string>();
+                    // ClientContext - Get the context for the SharePoint Online Site               
+                    using (ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/"))
+                    {
+
+                        // SharePoint Online Credentials    
+                        clientContext.Credentials = new NetworkCredential(userName, password, "AXISNET");
+
+                        // Get the SharePoint web  
+                        Web web = clientContext.Web;
+                        clientContext.Load(web, website => website.Webs, website => website.Title);
+                        try
+                        {
+                            // Execute the query to the server  
+                            clientContext.ExecuteQuery();
+
+                        }
+                        catch (Exception)
+                        {
+                            MetroDialogSettings ms = new MetroDialogSettings()
+                            {
+                                ColorScheme = MetroDialogColorScheme.Accented
+                            };
+                            await this.ShowMessageAsync("ERROR:", "Login incorrect", MessageDialogStyle.Affirmative, ms);
+
+                            Application.Current.Shutdown();
+                        }
+
+                        // Loop through all the webs  
+                        foreach (Web subWeb in web.Webs)
+                        {
+                            if (subWeb.Title.Contains(" "))
+                            {
+                                subWeb.Title = subWeb.Title.Replace(" ", "_");
+                            }
+                            if (subWeb.Title.Contains("å"))
+                            {
+                                subWeb.Title = subWeb.Title.Replace("å", "a");
+                            }
+                            if (subWeb.Title.Contains("ä"))
+                            {
+                                subWeb.Title = subWeb.Title.Replace("ä", "a");
+                            }
+                            if (subWeb.Title.Contains("ö"))
+                            {
+                                subWeb.Title = subWeb.Title.Replace("ö", "o");
+                            }
+                            Supplierlist.Add(subWeb.Title.ToString());
+
+                        }
+
+                        Supplierlist.Remove(@"Manufacturing_Template_Site_0");
+                        Supplierlist.Remove(@"manufacturing_template1");
+                        Supplierlist.Remove(@"Junda_2");
+                        Supplierlist.Remove(@"Goodway_2");
+                        Supplierlist.Remove(@"Experimental2");
+
+                    }
+                    return Supplierlist;
+
+                });
+
+                return createSupplierListResult;
+            }
+            catch (Exception)
+            {
+                List<string> errorlist = new List<string>
+                {
+                    "Error"
+                };
+                return errorlist;
+            }
+
         }
 
     }
