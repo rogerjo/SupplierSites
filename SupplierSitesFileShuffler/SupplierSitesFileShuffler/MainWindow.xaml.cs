@@ -70,6 +70,7 @@ namespace Renamer
 
             var theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(this, theme.Item2, theme.Item1);
+
         }
 
         public async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -84,6 +85,10 @@ namespace Renamer
             //Create a list of suppliers from Galaxis
             SearchDirs = await CreatingSuppliersListAsync(UserName, Password);
             return;
+
+            
+
+            
         }
 
         private void AccentSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -645,6 +650,7 @@ namespace Renamer
             }
 
         }
+
 
     }
 }
