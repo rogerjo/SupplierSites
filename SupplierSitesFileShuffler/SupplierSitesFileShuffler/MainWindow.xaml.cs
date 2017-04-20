@@ -8,9 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using SupplierSitesFileShuffler;
 using MahApps.Metro.Controls;
-using System.ComponentModel;
 using MahApps.Metro.Controls.Dialogs;
-using aejw.Network;
 using System.Windows.Media;
 using MahApps.Metro;
 using SupplierSitesFileShuffler.Properties;
@@ -53,8 +51,6 @@ namespace Renamer
         public string UserName { get; set; }
         public SecureString Password { get; set; }
 
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -86,9 +82,9 @@ namespace Renamer
             SearchDirs = await CreatingSuppliersListAsync(UserName, Password);
             return;
 
-            
 
-            
+
+
         }
 
         private void AccentSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -111,7 +107,6 @@ namespace Renamer
         {
             var succes = await CreateDocuSetsListAsync(SearchDirs);
             DropFilesResult(e);
-
         }
 
         private void DropFilesResult(DragEventArgs e)
@@ -124,13 +119,11 @@ namespace Renamer
                 {
                     string[] DroppedFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-
-
                     string[] SupplierArray = SearchDirs.ToArray();
-                    NewMethod1(DroppedFiles, SupplierArray);
+                    FormatFiles(DroppedFiles, SupplierArray);
 
                     //StatusIndicator.Text = "STATUS: FILES ADDED";
-                    ShowMessageBox("ADDED", "Files have been added. Check the files and remember to press the button to send them.");
+                    //ShowMessageBox("ADDED", "Files have been added. Check the files and remember to press the button to send them.");
                 };
             }
             catch (IndexOutOfRangeException)
@@ -140,7 +133,7 @@ namespace Renamer
             }
         }
 
-        private void NewMethod1(string[] DroppedFiles, string[] SupplierArray)
+        private void FormatFiles(string[] DroppedFiles, string[] SupplierArray)
         {
             foreach (string filepath in DroppedFiles)
             {
@@ -311,61 +304,11 @@ namespace Renamer
             _source.Clear();
         }
 
-        private void send_button_Click(object sender, RoutedEventArgs e)
+        private async void send_button_Click(object sender, RoutedEventArgs e)
         {
-            MyProgressRing.IsActive = true;
+            var sendResult = await UploadDocumentAsync();
 
-            BackgroundWorker workerSender = new BackgroundWorker();
-
-            workerSender.DoWork += delegate (object s, DoWorkEventArgs args)
-            {
-
-                foreach (ViewFile item in ViewSource)
-                {
-                    string contextLink = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
-
-                    var fileName = item.SourceLocation;
-
-                    var fi = new FileInfo(fileName);
-                    var fs = new FileStream(item.SourceLocation, FileMode.Open);
-                    string contentType;
-
-                    switch (item.Extension)
-                    {
-                        case ".PDF":
-                            contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
-                            break;
-                        case ".STP":
-                            contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
-                            break;
-                        default:
-                            contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
-                            break;
-                    }
-
-                    if (item.FileDescription == "Deco Spec")
-                    {
-                        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
-                    }
-
-                    if (item.SiteFound == true)
-                    {
-                        Helper.UploadDocument(contextLink, "Part Overview Library", "POLib/", item.PartNo + "/", item.FileName, fs, item.Status, item.Version, contentType, item.NewFileName, item.FileDescription);
-                    }
-                    fs.Close();
-
-                }
-            };
-            workerSender.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            workerSender.RunWorkerAsync();
-
-        }
-
-        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MyProgressRing.IsActive = false;
-            ShowMessageBox("SUCCESS", "Files have been uploaded to the sites successfully.");
-        }
+   }
 
         private void helpbutton_Click(object sender, RoutedEventArgs e)
         {
@@ -387,52 +330,6 @@ namespace Renamer
             dropimage.Source = green;
             dropimage.Opacity = 0.40;
         }
-
-
-        //Old LoginScreen
-        ////private async void LoginScreen()
-        //{
-
-        //    //Create Login dialog
-        //    LoginDialogSettings ms = new LoginDialogSettings();
-        //    ms.ColorScheme = MetroDialogColorScheme.Accented;
-        //    ms.EnablePasswordPreview = true;
-        //    ms.NegativeButtonVisibility = Visibility.Visible;
-        //    ms.NegativeButtonText = "Cancel";
-        //    LoginDialogData ldata = await this.ShowLoginAsync("Login to Galaxis", "Enter your credentials", ms);
-
-        //    if (ldata == null)
-        //    {
-        //        Application.Current.Shutdown();
-        //    }
-        //    else
-        //    {
-        //        Helper.GalaxisLogin(ldata.Username, ldata.Password, SearchDirs);
-        //        //Logging files
-        //        //using (StreamWriter w = File.AppendText(@"M://logfiles/logs.txt"))
-        //        //{
-        //        //    Log(ldata.Username + " " + ldata.Password, w);
-        //        //}
-        //    }
-
-        //    NetworkDrive oNetDrive = new NetworkDrive();
-
-        //    try
-        //    {
-        //        oNetDrive.LocalDrive = "K:";
-        //        oNetDrive.ShareName = @"\\10.0.5.41\suppliers\Manufacturing\";
-        //        oNetDrive.Persistent = false;
-        //        oNetDrive.SaveCredentials = true;
-        //        oNetDrive.MapDrive(ldata.Username, ldata.Password);
-        //    }
-        //    catch (Exception )
-        //    {
-        //        //ShowMessageBox("Information: You can still continue.", err.Message);
-        //    }
-        //    oNetDrive = null;
-
-        //}
-
         private async Task<bool> LoginScreen()
         {
             LoginDialogSettings ms = new LoginDialogSettings()
@@ -490,7 +387,6 @@ namespace Renamer
             }
 
         }
-
 
         public static void Log(string logMessage, TextWriter w)
         {
@@ -649,6 +545,90 @@ namespace Renamer
                 return errorlist;
             }
 
+        }
+
+        private async Task<bool> UploadDocumentAsync()
+        {
+            //Creating asyncmessagebox
+            MetroDialogSettings ms = new MetroDialogSettings()
+            {
+                ColorScheme = MetroDialogColorScheme.Accented
+            };
+            var controller = await this.ShowProgressAsync("Please wait...", "Uploading files for you!", false, ms);
+            controller.Maximum = ViewSource.Count;
+            controller.Minimum = 0;
+            int counter = 0;
+
+            //Iterating through all items
+            foreach (ViewFile item in ViewSource)
+            {
+                counter++;
+                controller.SetProgress((double)counter);
+
+                var fs = new FileStream(item.SourceLocation, FileMode.Open);
+                string contentType;
+                string prelState="";
+
+                switch (item.Extension)
+                {
+                    case ".PDF":
+                        contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
+                        prelState = "2D Drawing";
+                        break;
+                    case ".STP":
+                        contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
+                        prelState = "3D STEP";
+                        break;
+                    default:
+                        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                        break;
+                }
+
+                if (item.FileDescription == "Deco Spec")
+                {
+                    contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                }
+
+                if (item.SiteFound == true)
+                {
+                    var result = await Task.Run(() =>
+                    {
+                        string siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
+                        using (ClientContext clientContext = new ClientContext(siteURL))
+                        {
+                            List documentsList = clientContext.Web.Lists.GetByTitle("Part Overview library");
+                            var fileCreationInformation = new FileCreationInformation()
+                            {
+                                ContentStream = fs,
+                                //Allow owerwrite of document
+                                Overwrite = true,
+                                //Upload URL
+                                Url = siteURL + "POLib/" + item.PartNo + "/" + item.NewFileName
+                            };
+
+                            Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
+
+                            //Update the metadata for a field
+                            uploadFile.ListItemAllFields["ContentTypeId"] = contentType;
+                            uploadFile.ListItemAllFields["Mechanical_x0020_Status"] = item.Status;
+                            uploadFile.ListItemAllFields["Mechanical_x0020_Version"] = item.Version;
+                            uploadFile.ListItemAllFields["Comments"] = "Autogenerated upload";
+                            uploadFile.ListItemAllFields["CategoryDescription"] = item.FileDescription;
+                            //Preliminary data
+                            uploadFile.ListItemAllFields["Type_x0020_of_x0020_Document"] = prelState;
+
+                            uploadFile.ListItemAllFields.Update();
+                            clientContext.ExecuteQuery();
+                        }
+
+                        return true;
+                    });
+
+                }
+                fs.Close();
+            }
+            await controller.CloseAsync();
+            return true;
         }
 
 
