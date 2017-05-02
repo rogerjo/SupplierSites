@@ -264,21 +264,47 @@ namespace Renamer
                 //If item is not in any list
                 if (!haselements)
                 {
-                    _source.Add(new ViewFile
+                    if (viewer.Status == "None")
                     {
-                        Extension = infoFile.Extension.ToUpper(),
-                        FileSize = (infoFile.Length / 1024).ToString() + " kB",
-                        PartNo = infoFile.Name.Substring(0, 7),
-                        SourceLocation = filepath,
-                        FileName = infoFile.Name,
-                        CopySite = "",
-                        SiteFound = false,
-                        Version = names[1] + "." + names[2],
-                        Status = FileState,
-                        Supplier = "",
-                        FolderName = "",
-                        NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
-                    });
+                        _source.Add(new ViewFile
+                        {
+                            FileDescription="Deco Spec",
+                            Extension = infoFile.Extension.ToUpper(),
+                            FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                            PartNo = infoFile.Name.Substring(0, 7),
+                            SourceLocation = filepath,
+                            FileName = infoFile.Name,
+                            CopySite = "",
+                            SiteFound = false,
+                            Version = "None",
+                            Status = "None",
+                            Supplier = "",
+                            FolderName = "",
+                            NewFileName = $"{infoFile.Name.Substring(0, 7)}_deco.pdf"
+                        });
+
+                    }
+                    else
+                    {
+                        _source.Add(new ViewFile
+                        {
+                            Extension = infoFile.Extension.ToUpper(),
+                            FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                            PartNo = infoFile.Name.Substring(0, 7),
+                            SourceLocation = filepath,
+                            FileName = infoFile.Name,
+                            CopySite = "",
+                            SiteFound = false,
+                            Version = names[1] + "." + names[2],
+                            Status = "",
+                            Supplier = "",
+                            FolderName = "",
+                            NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
+                        });
+
+                    }
+
+
 
                 }
                 if (viewer.Status == "Error")
