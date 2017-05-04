@@ -268,7 +268,7 @@ namespace Renamer
                     {
                         _source.Add(new ViewFile
                         {
-                            FileDescription="Deco Spec",
+                            FileDescription = "Deco Spec",
                             Extension = infoFile.Extension.ToUpper(),
                             FileSize = (infoFile.Length / 1024).ToString() + " kB",
                             PartNo = infoFile.Name.Substring(0, 7),
@@ -567,19 +567,26 @@ namespace Renamer
                 foreach (string location in _searchdirs)
                 {
                     string searchSite = $"http://galaxis.axis.com/suppliers/Manufacturing/{location}/";
+
                     counter++;
 
                     controller.SetProgress((double)counter);
+                    var query = new CamlQuery();
 
                     using (ClientContext ctx = new ClientContext(searchSite))
                     {
                         var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
-
-                        var query = new CamlQuery()
+                        if (searchSite == "http://galaxis.axis.com/suppliers/Manufacturing/Great_Rubber/")
                         {
-                            ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>"
-                        };
+                            query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749</Value></Eq></Where></Query></View>";
+                        }
+                        else
+                        {
+                            query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>";
+                        }
 
+                        //0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E
+                        //0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749
 
                         var POListItems = POlist.GetItems(query);
 
