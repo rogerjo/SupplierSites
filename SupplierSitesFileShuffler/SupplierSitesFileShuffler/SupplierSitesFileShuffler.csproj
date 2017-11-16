@@ -64,7 +64,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E328D251F34A34C4AC2CDB9B4B51DF9FFAD3E338</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C62F34FBD5DA76411DE61D6E120293A9A4E54D41</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SupplierSitesFileShuffler_1_TemporaryKey.pfx</ManifestKeyFile>
@@ -100,7 +100,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SupplierSitesFileShuffler_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SupplierSitesFileShuffler_1_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
@@ -222,6 +222,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="SupplierSitesFileShuffler_1_TemporaryKey.pfx" />
     <None Include="SupplierSitesFileShuffler_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

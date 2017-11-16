@@ -141,6 +141,12 @@ namespace Renamer
                 string Description = "";
                 string version = "";
 
+                if (infoFile.Extension == ".stl")
+                {
+                    Description = "STL";
+                    FileState = "None";
+                    version = "None";
+                }
                 if (names.Length == 5)
                 {
                     amountOfSplits = 3;
@@ -176,7 +182,8 @@ namespace Renamer
                     version = "None";
                 }
 
-                if (names.Length != 5 && names.Length != 3)
+
+                if (names.Length != 5 && names.Length != 3 && Description != "STL")
                 {
                     FileState = "Error";
                 }
@@ -197,6 +204,10 @@ namespace Renamer
                     }
 
                 }
+                else if (viewer.Extension == ".STL")
+                {
+                    viewer.NewFileName = infoFile.Name;
+                }
                 else
                 {
                     viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}";
@@ -210,7 +221,6 @@ namespace Renamer
                             select lib;
 
                 var foundDirectories = query.ToList();
-
 
                 bool haselements = foundDirectories.Any();
                 if (haselements)
@@ -264,7 +274,7 @@ namespace Renamer
                 //If item is not in any list
                 if (!haselements)
                 {
-                    if (viewer.Status == "None")
+                    if (viewer.Status == "None" && viewer.Extension != ".STL")
                     {
                         _source.Add(new ViewFile
                         {
@@ -283,6 +293,28 @@ namespace Renamer
                             NewFileName = $"{infoFile.Name.Substring(0, 7)}_deco.pdf"
                         });
 
+                    }
+                    else if (viewer.Extension == ".STL")
+                    {//STL File
+                        string localsite = null;
+                        localsite = names[1];
+
+                        _source.Add(new ViewFile
+                        {
+                            FileDescription = "STL",
+                            Extension = infoFile.Extension.ToUpper(),
+                            FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                            PartNo = infoFile.Name.Substring(0, 7),
+                            SourceLocation = filepath,
+                            FileName = infoFile.Name,
+                            CopySite = localsite,
+                            SiteFound = true,
+                            Version = "None",
+                            Status = "None",
+                            Supplier = localsite.ToString().ToUpper(),
+                            FolderName = (string.Equals(localsite,"lth")) ? @"http://galaxis.axis.com/suppliers/Manufacturing/LTH/File%20Library" : @"http://galaxis.axis.com/suppliers/Manufacturing/3DPrint/File%20Library",
+                            NewFileName = infoFile.Name
+                        });
                     }
                     else
                     {
@@ -307,6 +339,7 @@ namespace Renamer
 
 
                 }
+
                 if (viewer.Status == "Error")
                 {
                     viewer.SiteFound = false;
@@ -331,7 +364,6 @@ namespace Renamer
                 FileDescription = Description,
                 Status = FileState,
                 FolderName = ""
-
             };
             return viewer;
         }
@@ -407,7 +439,13 @@ namespace Renamer
                         item.Version = "MX.X";
                     }
 
-                    if (item.SiteFound == true)
+                    if (item.FileDescription == "STL")
+                    {
+                        item.Status = "None";
+                        item.Version = "MX.X";
+                    }
+
+                    if (item.SiteFound == true && item.FileDescription != "STL")
                     {
                         string siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
                         using (ClientContext clientContext = new ClientContext(siteURL))
@@ -432,6 +470,31 @@ namespace Renamer
                             uploadFile.ListItemAllFields["CategoryDescription"] = item.FileDescription;
                             //Preliminary data
                             uploadFile.ListItemAllFields["Type_x0020_of_x0020_Document"] = prelState;
+
+                            uploadFile.ListItemAllFields.Update();
+                            clientContext.ExecuteQuery();
+                        }
+                    }
+                    else if (item.SiteFound == true && item.FileDescription == "STL")
+                    {
+                        string siteURL;
+
+                        if (item.Supplier == "LTH")
+                            siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/LTH/";
+                        else siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/3DPrint/";
+                        using (ClientContext clientContext = new ClientContext(siteURL))
+                        {
+                            List documentsList = clientContext.Web.Lists.GetByTitle("File Library");
+                            var fileCreationInformation = new FileCreationInformation()
+                            {
+                                ContentStream = fs,
+                                //Allow owerwrite of document
+                                Overwrite = true,
+                                //Upload URL
+                                Url = siteURL + "File%20Library/" + item.NewFileName
+                            };
+
+                            Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
 
                             uploadFile.ListItemAllFields.Update();
                             clientContext.ExecuteQuery();
