@@ -196,11 +196,12 @@ namespace Renamer
                 {
                     if (viewer.Version == "None")
                     {
-                        viewer.NewFileName = $"{viewer.PartNo}_deco.pdf";
+                        viewer.NewFileName = $"{names[0]}_deco.pdf";
+
                     }
                     else
                     {
-                        viewer.NewFileName = viewer.NewFileName = $"{viewer.PartNo}D_{names[1]}_{names[2]}{viewer.Extension}";
+                        viewer.NewFileName = viewer.NewFileName = $"{names[0]}D_{names[1]}_{names[2]}{viewer.Extension}";
                     }
 
                 }
@@ -232,7 +233,8 @@ namespace Renamer
                             var supplier = foundDirectories[i].Split(new Char[] { '/' });
                             _source.Add(new ViewFile
                             {
-                                FileDescription = "Deco Spec",
+                                //FileDescription = "Deco Spec",
+                                FileDescription = (names[0].Length > 7) ? "Variant" : "Deco Spec",
                                 Extension = infoFile.Extension.ToUpper(),
                                 FileSize = (infoFile.Length / 1024).ToString() + " kB",
                                 PartNo = infoFile.Name.Substring(0, 7),
@@ -244,7 +246,7 @@ namespace Renamer
                                 Status = "None",
                                 Supplier = supplier[3],
                                 FolderName = @"http://galaxis.axis.com/" + foundDirectories[i].ToString(),
-                                NewFileName = $"{infoFile.Name.Substring(0, 7)}_deco.pdf"
+                                NewFileName = $"{names[0]}_deco.pdf"
                             });
 
                         }
@@ -278,7 +280,7 @@ namespace Renamer
                     {
                         _source.Add(new ViewFile
                         {
-                            FileDescription = "Deco Spec",
+                            FileDescription = (names[0].Length > 7) ? "Deco Variant" : "Deco Spec",
                             Extension = infoFile.Extension.ToUpper(),
                             FileSize = (infoFile.Length / 1024).ToString() + " kB",
                             PartNo = infoFile.Name.Substring(0, 7),
@@ -290,7 +292,7 @@ namespace Renamer
                             Status = "None",
                             Supplier = "",
                             FolderName = "",
-                            NewFileName = $"{infoFile.Name.Substring(0, 7)}_deco.pdf"
+                            NewFileName = $"{names[0]}_deco.pdf"
                         });
 
                     }
@@ -312,7 +314,7 @@ namespace Renamer
                             Version = "None",
                             Status = "None",
                             Supplier = localsite.ToString().ToUpper(),
-                            FolderName = (string.Equals(localsite,"lth")) ? @"http://galaxis.axis.com/suppliers/Manufacturing/LTH/File%20Library" : @"http://galaxis.axis.com/suppliers/Manufacturing/3DPrint/File%20Library",
+                            FolderName = (string.Equals(localsite, "lth")) ? @"http://galaxis.axis.com/suppliers/Manufacturing/LTH/File%20Library" : @"http://galaxis.axis.com/suppliers/Manufacturing/3DPrint/File%20Library",
                             NewFileName = infoFile.Name
                         });
                     }
@@ -432,7 +434,7 @@ namespace Renamer
                             break;
                     }
 
-                    if (item.FileDescription == "Deco Spec")
+                    if (item.FileDescription == "Deco Spec" || item.FileDescription=="Variant")
                     {
                         contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
                         item.Status = "None";
