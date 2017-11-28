@@ -7,7 +7,7 @@
                       xmlns:metro="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-                      Title="fileshuffler III"
+                      Title="fileshuffler IV"
                       Height="500"
                       Width="900"
                       ShowMaxRestoreButton='False'
