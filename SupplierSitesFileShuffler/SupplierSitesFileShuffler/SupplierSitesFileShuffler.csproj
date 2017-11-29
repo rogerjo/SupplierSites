@@ -26,9 +26,9 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <MinimumRequiredVersion>3.2.1.2</MinimumRequiredVersion>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>3.2.1.%2a</ApplicationVersion>
+    <MinimumRequiredVersion>4.1.1.4</MinimumRequiredVersion>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>4.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -57,7 +57,7 @@
     <ApplicationIcon>StackOverflow150.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
+    <TargetZone>Internet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -67,7 +67,8 @@
     <ManifestCertificateThumbprint>C62F34FBD5DA76411DE61D6E120293A9A4E54D41</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SupplierSitesFileShuffler_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -100,7 +101,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SupplierSitesFileShuffler_1_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SupplierSitesFileShuffler_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
