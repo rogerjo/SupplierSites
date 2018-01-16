@@ -244,8 +244,8 @@ namespace Renamer
                                 SiteFound = true,
                                 Version = "None",
                                 Status = "None",
-                                Supplier = supplier[3],
-                                FolderName = @"http://galaxis.axis.com/" + foundDirectories[i].ToString(),
+                                Supplier = supplier[4],
+                                FolderName = @"https://galaxis2.axis.com/" + foundDirectories[i].ToString(),
                                 NewFileName = $"{names[0]}_deco.pdf"
                             });
 
@@ -264,8 +264,8 @@ namespace Renamer
                                 SiteFound = true,
                                 Version = names[1] + "." + names[2],
                                 Status = FileState,
-                                Supplier = supplier[3],
-                                FolderName = @"http://galaxis.axis.com/" + foundDirectories[i].ToString(),
+                                Supplier = supplier[4],
+                                FolderName = @"https://galaxis2.axis.com/" + foundDirectories[i].ToString(),
                                 NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
                             });
                         }
@@ -314,7 +314,7 @@ namespace Renamer
                             Version = "None",
                             Status = "None",
                             Supplier = localsite.ToString().ToUpper(),
-                            FolderName = (string.Equals(localsite, "lth")) ? @"http://galaxis.axis.com/suppliers/Manufacturing/LTH/File%20Library" : @"http://galaxis.axis.com/suppliers/Manufacturing/3DPrint/File%20Library",
+                            FolderName = (string.Equals(localsite, "lth")) ? @"https://galaxis2.axis.com/sites/Suppliers/Manufacturing/LTH/File%20Library" : @"https://galaxis2.axis.com/sites/Suppliers/Manufacturing/3DPrint/File%20Library",
                             NewFileName = infoFile.Name
                         });
                     }
@@ -419,24 +419,40 @@ namespace Renamer
                     string contentType;
                     string prelState = "";
 
+                    // SharePoint 2013 GUIDs
+                    //switch (item.Extension)
+                    //{
+                    //    case ".PDF":
+                    //        contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
+                    //        prelState = "2D Drawing";
+                    //        break;
+                    //    case ".STP":
+                    //        contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
+                    //        prelState = "3D STEP";
+                    //        break;
+                    //    default:
+                    //        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                    //        break;
+                    //}
+
                     switch (item.Extension)
                     {
                         case ".PDF":
-                            contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
+                            contentType = "0x010100BF7DE7821641D74FB71D447E9F5F6608";
                             prelState = "2D Drawing";
                             break;
                         case ".STP":
-                            contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
+                            contentType = "0x010100AD736FF564247C4BA7A5ADCD2A825FDD";
                             prelState = "3D STEP";
                             break;
                         default:
-                            contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                            contentType = "0x0101002D4E7A2E8798D44C8DABF6187B96EA2F";
                             break;
                     }
 
-                    if (item.FileDescription == "Deco Spec" || item.FileDescription=="Variant")
+                    if (item.FileDescription == "Deco Spec" || item.FileDescription == "Variant")
                     {
-                        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
+                        contentType = "0x0101002D4E7A2E8798D44C8DABF6187B96EA2F";
                         item.Status = "None";
                         item.Version = "MX.X";
                     }
@@ -449,10 +465,11 @@ namespace Renamer
 
                     if (item.SiteFound == true && item.FileDescription != "STL")
                     {
-                        string siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/" + item.Supplier + "/";
+                        string siteURL = "https://galaxis2.axis.com/sites/Suppliers/manufacturing/" + item.Supplier + "/";
                         using (ClientContext clientContext = new ClientContext(siteURL))
                         {
-                            List documentsList = clientContext.Web.Lists.GetByTitle("Part Overview library");
+                            Web web = clientContext.Web;
+                            List documentsList = clientContext.Web.Lists.GetByTitle("Part Overview Library");
                             var fileCreationInformation = new FileCreationInformation()
                             {
                                 ContentStream = fs,
@@ -464,17 +481,21 @@ namespace Renamer
 
                             Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
 
-                            //Update the metadata for a field
-                            uploadFile.ListItemAllFields["ContentTypeId"] = contentType;
-                            uploadFile.ListItemAllFields["Mechanical_x0020_Status"] = item.Status;
-                            uploadFile.ListItemAllFields["Mechanical_x0020_Version"] = item.Version;
-                            uploadFile.ListItemAllFields["Comments"] = "Autogenerated upload";
-                            uploadFile.ListItemAllFields["CategoryDescription"] = item.FileDescription;
-                            //Preliminary data
-                            uploadFile.ListItemAllFields["Type_x0020_of_x0020_Document"] = prelState;
-
-                            uploadFile.ListItemAllFields.Update();
+                            clientContext.Load(documentsList);
+                            clientContext.Load(uploadFile);
                             clientContext.ExecuteQuery();
+
+                            //////Update the metadata for a field
+                            //uploadFile.ListItemAllFields["ContentTypeId"] = contentType;
+                            //uploadFile.ListItemAllFields["Mechanical_x0020_Status"] = item.Status;
+                            //uploadFile.ListItemAllFields["Mechanical_x0020_Version"] = item.Version;
+                            ////uploadFile.ListItemAllFields["Comments"] = "Autogenerated upload";
+                            ////uploadFile.ListItemAllFields["CategoryDescription"] = item.FileDescription;
+                            //////Preliminary data
+                            ////uploadFile.ListItemAllFields["Type_x0020_of_x0020_Document"] = prelState;
+
+                            //uploadFile.ListItemAllFields.Update();
+                            //clientContext.ExecuteQuery();
                         }
                     }
                     else if (item.SiteFound == true && item.FileDescription == "STL")
@@ -482,8 +503,8 @@ namespace Renamer
                         string siteURL;
 
                         if (item.Supplier == "LTH")
-                            siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/LTH/";
-                        else siteURL = "http://galaxis.axis.com/suppliers/Manufacturing/3DPrint/";
+                            siteURL = "https://galaxis2.axis.com/sites/Suppliers/Manufacturing/LTH/";
+                        else siteURL = "https://galaxis2.axis.com/sites/Suppliers/Manufacturing/3DPrint/";
                         using (ClientContext clientContext = new ClientContext(siteURL))
                         {
                             List documentsList = clientContext.Web.Lists.GetByTitle("File Library");
@@ -537,6 +558,7 @@ namespace Renamer
             dropimage.Source = green;
             dropimage.Opacity = 0.40;
         }
+
         private async Task<bool> LoginScreen()
         {
             LoginDialogSettings ms = new LoginDialogSettings()
@@ -560,7 +582,7 @@ namespace Renamer
                     UserName = ldata.Username;
                 }
 
-                using (ClientContext ctx = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/"))
+                using (ClientContext ctx = new ClientContext("https://galaxis2.axis.com/sites/Suppliers/manufacturing/"))
                 {
 
                     // SharePoint Online Credentials    
@@ -631,7 +653,7 @@ namespace Renamer
                 int counter = 0;
                 foreach (string location in _searchdirs)
                 {
-                    string searchSite = $"http://galaxis.axis.com/suppliers/Manufacturing/{location}/";
+                    string searchSite = $"https://galaxis2.axis.com/sites/Suppliers/manufacturing/{location}/";
 
                     counter++;
 
@@ -640,18 +662,22 @@ namespace Renamer
 
                     using (ClientContext ctx = new ClientContext(searchSite))
                     {
-                        var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
-                        if (searchSite == "http://galaxis.axis.com/suppliers/Manufacturing/Great_Rubber/")
-                        {
-                            query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749</Value></Eq></Where></Query></View>";
-                        }
-                        else
-                        {
-                            query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>";
-                        }
+                        //var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
+                        //if (searchSite == "https://galaxis2.axis.com/sites/Suppliers/manufacturing/Great_Rubber/")
+                        //{
+                        //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749</Value></Eq></Where></Query></View>";
+                        //}
+                        //else
+                        //{
+                        //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>";
+                        //}
 
-                        //0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E
-                        //0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749
+                        var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
+
+                        query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D52000A01F1563E437D14BB12791DBDA71332A00F15AB29E23EDDB4AACB8783B61B37C36</Value></Eq></Where></Query></View>";
+
+                        //OLD SHAREPOINT
+                        //query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>";
 
                         var POListItems = POlist.GetItems(query);
 
@@ -681,7 +707,7 @@ namespace Renamer
                 {
                     List<string> Supplierlist = new List<string>();
                     // ClientContext - Get the context for the SharePoint Online Site               
-                    using (ClientContext clientContext = new ClientContext("http://galaxis.axis.com/suppliers/Manufacturing/"))
+                    using (ClientContext clientContext = new ClientContext("https://galaxis2.axis.com/sites/Suppliers/Manufacturing/"))
                     {
 
                         // SharePoint Online Credentials    
@@ -730,11 +756,12 @@ namespace Renamer
 
                         }
 
-                        Supplierlist.Remove(@"Manufacturing_Template_Site_0");
-                        Supplierlist.Remove(@"manufacturing_template1");
-                        Supplierlist.Remove(@"Junda_2");
-                        Supplierlist.Remove(@"Goodway_2");
-                        Supplierlist.Remove(@"Experimental2");
+                        //Not needed for 2016
+                        //Supplierlist.Remove(@"Manufacturing_Template_Site_0");
+                        //Supplierlist.Remove(@"manufacturing_template1");
+                        //Supplierlist.Remove(@"Junda_2");
+                        //Supplierlist.Remove(@"Goodway_2");
+                        //Supplierlist.Remove(@"Experimental2");
 
                     }
                     return Supplierlist;
