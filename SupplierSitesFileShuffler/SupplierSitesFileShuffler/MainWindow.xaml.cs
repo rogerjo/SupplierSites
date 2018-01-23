@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Security;
 using Microsoft.SharePoint.Client;
 using System.Net;
+using SP = Microsoft.SharePoint.Client;
 
 namespace Renamer
 {
@@ -245,7 +246,7 @@ namespace Renamer
                                 Version = "None",
                                 Status = "None",
                                 Supplier = supplier[4],
-                                FolderName = @"https://galaxis2.axis.com/" + foundDirectories[i].ToString(),
+                                FolderName = @"https://galaxis.axis.com/" + foundDirectories[i].ToString(),
                                 NewFileName = $"{names[0]}_deco.pdf"
                             });
 
@@ -265,7 +266,7 @@ namespace Renamer
                                 Version = names[1] + "." + names[2],
                                 Status = FileState,
                                 Supplier = supplier[4],
-                                FolderName = @"https://galaxis2.axis.com/" + foundDirectories[i].ToString(),
+                                FolderName = @"https://galaxis.axis.com/" + foundDirectories[i].ToString(),
                                 NewFileName = $"{viewer.PartNo}_{names[1]}_{names[2]}{viewer.Extension}"
                             });
                         }
@@ -314,7 +315,7 @@ namespace Renamer
                             Version = "None",
                             Status = "None",
                             Supplier = localsite.ToString().ToUpper(),
-                            FolderName = (string.Equals(localsite, "lth")) ? @"https://galaxis2.axis.com/sites/Suppliers/Manufacturing/LTH/File%20Library" : @"https://galaxis2.axis.com/sites/Suppliers/Manufacturing/3DPrint/File%20Library",
+                            FolderName = (string.Equals(localsite, "lth")) ? @"https://galaxis.axis.com/sites/Suppliers/Manufacturing/LTH/File%20Library" : @"https://galaxis.axis.com/sites/Suppliers/Manufacturing/3DPrint/File%20Library",
                             NewFileName = infoFile.Name
                         });
                     }
@@ -419,26 +420,10 @@ namespace Renamer
                     string contentType;
                     string prelState = "";
 
-                    // SharePoint 2013 GUIDs
-                    //switch (item.Extension)
-                    //{
-                    //    case ".PDF":
-                    //        contentType = "0x0101002E4324F629AF91418A19E23965F550A7";
-                    //        prelState = "2D Drawing";
-                    //        break;
-                    //    case ".STP":
-                    //        contentType = "0x01010096E61CDEDED8BB4886BCB7196BBB5221";
-                    //        prelState = "3D STEP";
-                    //        break;
-                    //    default:
-                    //        contentType = "0x010100CA81EBBDB740E843B3AADA20411BCD93";
-                    //        break;
-                    //}
-
                     switch (item.Extension)
                     {
                         case ".PDF":
-                            contentType = "0x010100BF7DE7821641D74FB71D447E9F5F6608";
+                            contentType = "0x0101007B29E4AE3D16D043BF379A0ECE5E19EC";
                             prelState = "2D Drawing";
                             break;
                         case ".STP":
@@ -465,11 +450,12 @@ namespace Renamer
 
                     if (item.SiteFound == true && item.FileDescription != "STL")
                     {
-                        string siteURL = "https://galaxis2.axis.com/sites/Suppliers/manufacturing/" + item.Supplier + "/";
-                        using (ClientContext clientContext = new ClientContext(siteURL))
+                        string siteURL = "https://galaxis.axis.com/sites/Suppliers/manufacturing/" + item.Supplier + "/";
+
+                        using (ClientContext ctx = new ClientContext(siteURL))
                         {
-                            Web web = clientContext.Web;
-                            List documentsList = clientContext.Web.Lists.GetByTitle("Part Overview Library");
+                            SP.List documentsList = ctx.Web.Lists.GetByTitle("Part Overview Library");
+
                             var fileCreationInformation = new FileCreationInformation()
                             {
                                 ContentStream = fs,
@@ -479,23 +465,19 @@ namespace Renamer
                                 Url = siteURL + "POLib/" + item.PartNo + "/" + item.NewFileName
                             };
 
-                            Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
-
-                            clientContext.Load(documentsList);
-                            clientContext.Load(uploadFile);
-                            clientContext.ExecuteQuery();
+                            SP.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
 
                             //////Update the metadata for a field
-                            //uploadFile.ListItemAllFields["ContentTypeId"] = contentType;
-                            //uploadFile.ListItemAllFields["Mechanical_x0020_Status"] = item.Status;
-                            //uploadFile.ListItemAllFields["Mechanical_x0020_Version"] = item.Version;
-                            ////uploadFile.ListItemAllFields["Comments"] = "Autogenerated upload";
-                            ////uploadFile.ListItemAllFields["CategoryDescription"] = item.FileDescription;
+                            uploadFile.ListItemAllFields["ContentTypeId"] = contentType;
+                            uploadFile.ListItemAllFields["Mechanical_x0020_Status"] = item.Status;
+                            uploadFile.ListItemAllFields["Mechanical_x0020_Version"] = item.Version;
+                            uploadFile.ListItemAllFields["RoutingRuleDescription"] = item.FileDescription;
                             //////Preliminary data
-                            ////uploadFile.ListItemAllFields["Type_x0020_of_x0020_Document"] = prelState;
+                            uploadFile.ListItemAllFields["Type_x0020_of_x0020_Document"] = prelState;
 
-                            //uploadFile.ListItemAllFields.Update();
-                            //clientContext.ExecuteQuery();
+                            uploadFile.ListItemAllFields.Update();
+                            ctx.ExecuteQuery();
+
                         }
                     }
                     else if (item.SiteFound == true && item.FileDescription == "STL")
@@ -503,11 +485,11 @@ namespace Renamer
                         string siteURL;
 
                         if (item.Supplier == "LTH")
-                            siteURL = "https://galaxis2.axis.com/sites/Suppliers/Manufacturing/LTH/";
-                        else siteURL = "https://galaxis2.axis.com/sites/Suppliers/Manufacturing/3DPrint/";
-                        using (ClientContext clientContext = new ClientContext(siteURL))
+                            siteURL = "https://galaxis.axis.com/sites/Suppliers/Manufacturing/LTH/";
+                        else siteURL = "https://galaxis.axis.com/sites/Suppliers/Manufacturing/3DPrint/";
+                        using (ClientContext ctx = new ClientContext(siteURL))
                         {
-                            List documentsList = clientContext.Web.Lists.GetByTitle("File Library");
+                            List documentsList = ctx.Web.Lists.GetByTitle("File Library");
                             var fileCreationInformation = new FileCreationInformation()
                             {
                                 ContentStream = fs,
@@ -517,10 +499,10 @@ namespace Renamer
                                 Url = siteURL + "File%20Library/" + item.NewFileName
                             };
 
-                            Microsoft.SharePoint.Client.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
+                            SP.File uploadFile = documentsList.RootFolder.Files.Add(fileCreationInformation);
 
                             uploadFile.ListItemAllFields.Update();
-                            clientContext.ExecuteQuery();
+                            ctx.ExecuteQuery();
                         }
                     }
                     fs.Close();
@@ -582,7 +564,7 @@ namespace Renamer
                     UserName = ldata.Username;
                 }
 
-                using (ClientContext ctx = new ClientContext("https://galaxis2.axis.com/sites/Suppliers/manufacturing/"))
+                using (ClientContext ctx = new ClientContext("https://galaxis.axis.com/sites/Suppliers/manufacturing/"))
                 {
 
                     // SharePoint Online Credentials    
@@ -653,7 +635,7 @@ namespace Renamer
                 int counter = 0;
                 foreach (string location in _searchdirs)
                 {
-                    string searchSite = $"https://galaxis2.axis.com/sites/Suppliers/manufacturing/{location}/";
+                    string searchSite = $"https://galaxis.axis.com/sites/Suppliers/manufacturing/{location}/";
 
                     counter++;
 
@@ -663,7 +645,7 @@ namespace Renamer
                     using (ClientContext ctx = new ClientContext(searchSite))
                     {
                         //var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
-                        //if (searchSite == "https://galaxis2.axis.com/sites/Suppliers/manufacturing/Great_Rubber/")
+                        //if (searchSite == "https://galaxis.axis.com/sites/Suppliers/manufacturing/Great_Rubber/")
                         //{
                         //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749</Value></Eq></Where></Query></View>";
                         //}
@@ -707,7 +689,7 @@ namespace Renamer
                 {
                     List<string> Supplierlist = new List<string>();
                     // ClientContext - Get the context for the SharePoint Online Site               
-                    using (ClientContext clientContext = new ClientContext("https://galaxis2.axis.com/sites/Suppliers/Manufacturing/"))
+                    using (ClientContext clientContext = new ClientContext("https://galaxis.axis.com/sites/Suppliers/Manufacturing/"))
                     {
 
                         // SharePoint Online Credentials    
