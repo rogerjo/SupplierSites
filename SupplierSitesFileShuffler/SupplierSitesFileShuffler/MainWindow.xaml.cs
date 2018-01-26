@@ -51,6 +51,7 @@ namespace Renamer
         public static List<string> DocuSetsList = new List<string>();
         public string UserName { get; set; }
         public SecureString Password { get; set; }
+    
 
         public MainWindow()
         {
