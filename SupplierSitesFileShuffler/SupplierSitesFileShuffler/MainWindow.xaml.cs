@@ -644,22 +644,9 @@ namespace Renamer
 
                     using (ClientContext ctx = new ClientContext(searchSite))
                     {
-                        //var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
-                        //if (searchSite == "https://galaxis.axis.com/sites/Suppliers/manufacturing/Great_Rubber/")
-                        //{
-                        //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C600A4B97D9ACA0086489FF9199876F9C749</Value></Eq></Where></Query></View>";
-                        //}
-                        //else
-                        //{
-                        //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>";
-                        //}
-
                         var POlist = ctx.Web.Lists.GetByTitle("Part Overview Library");
 
                         query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D52000A01F1563E437D14BB12791DBDA71332A00F15AB29E23EDDB4AACB8783B61B37C36</Value></Eq></Where></Query></View>";
-
-                        //OLD SHAREPOINT
-                        //query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ContentTypeId'/><Value Type='Text'>0x0120D520005FF5F128F273FA40A49E7863E8A599C6005CFA6F34D39D6A4586AFCE307190091E</Value></Eq></Where></Query></View>";
 
                         var POListItems = POlist.GetItems(query);
 
