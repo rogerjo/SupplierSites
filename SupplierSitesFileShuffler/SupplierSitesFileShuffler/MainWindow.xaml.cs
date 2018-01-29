@@ -51,7 +51,7 @@ namespace Renamer
         public static List<string> DocuSetsList = new List<string>();
         public string UserName { get; set; }
         public SecureString Password { get; set; }
-    
+
 
         public MainWindow()
         {
@@ -226,11 +226,34 @@ namespace Renamer
                 var foundDirectories = query.ToList();
 
                 bool haselements = foundDirectories.Any();
-                if (haselements)
+                if (viewer.Extension == ".STL")
+                {//STL File
+                    string localsite = null;
+                    localsite = names[1];
+
+                    _source.Add(new ViewFile
+                    {
+                        FileDescription = "STL",
+                        Extension = infoFile.Extension.ToUpper(),
+                        FileSize = (infoFile.Length / 1024).ToString() + " kB",
+                        PartNo = infoFile.Name.Substring(0, 7),
+                        SourceLocation = filepath,
+                        FileName = infoFile.Name,
+                        CopySite = localsite,
+                        SiteFound = true,
+                        Version = "None",
+                        Status = "None",
+                        Supplier = localsite.ToString().ToUpper(),
+                        FolderName = (string.Equals(localsite, "lth")) ? @"https://galaxis.axis.com/sites/Suppliers/Manufacturing/LTH/File%20Library" : @"https://galaxis.axis.com/sites/Suppliers/Manufacturing/3DPrint/File%20Library",
+                        NewFileName = infoFile.Name
+                    });
+                }
+
+                else if (haselements)
                 {
                     for (int i = 0; i < foundDirectories.Count; i++)
                     {
-                        if (viewer.Status == "None")
+                        if (viewer.Status == "None" && viewer.Extension != ".stl")
                         {
                             var supplier = foundDirectories[i].Split(new Char[] { '/' });
                             _source.Add(new ViewFile
@@ -252,7 +275,7 @@ namespace Renamer
                             });
 
                         }
-                        else
+                        else if (viewer.Extension != ".STL")
                         {
                             var supplier = foundDirectories[i].Split(new Char[] { '/' });
                             _source.Add(new ViewFile
@@ -298,29 +321,8 @@ namespace Renamer
                         });
 
                     }
-                    else if (viewer.Extension == ".STL")
-                    {//STL File
-                        string localsite = null;
-                        localsite = names[1];
 
-                        _source.Add(new ViewFile
-                        {
-                            FileDescription = "STL",
-                            Extension = infoFile.Extension.ToUpper(),
-                            FileSize = (infoFile.Length / 1024).ToString() + " kB",
-                            PartNo = infoFile.Name.Substring(0, 7),
-                            SourceLocation = filepath,
-                            FileName = infoFile.Name,
-                            CopySite = localsite,
-                            SiteFound = true,
-                            Version = "None",
-                            Status = "None",
-                            Supplier = localsite.ToString().ToUpper(),
-                            FolderName = (string.Equals(localsite, "lth")) ? @"https://galaxis.axis.com/sites/Suppliers/Manufacturing/LTH/File%20Library" : @"https://galaxis.axis.com/sites/Suppliers/Manufacturing/3DPrint/File%20Library",
-                            NewFileName = infoFile.Name
-                        });
-                    }
-                    else
+                    else if (viewer.Extension != ".STL")
                     {
                         _source.Add(new ViewFile
                         {
